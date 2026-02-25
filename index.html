@@ -49,9 +49,9 @@
         .event-date-pill { color: #0ea5e9; font-weight: 800; margin-left: 8px; white-space: nowrap; }
         .event-text { font-weight: 800; color: var(--main-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* QR Gymboree - Centered and Tighter */
-        .qr-section { background: #f0f9ff; padding: 8px; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px; border-top: 2px solid #bae6fd; margin-top: auto; }
-        .qr-text-side { font-size: 1.5vw; font-weight: 900; color: #0369a1; text-align: right; white-space: nowrap; }
+        /* QR Gymboree - מרכוז ושיפור נראות */
+        .qr-section { background: #f0f9ff; padding: 8px; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 12px; border-top: 2px solid #bae6fd; margin-top: auto; }
+        .qr-text-side { font-size: 1.6vw; font-weight: 900; color: #0369a1; text-align: right; white-space: nowrap; }
 
         /* Cake Promo */
         .cake-promo { flex: 2.2; background: #fffdf5; border: 2px solid #eab308; }
@@ -60,10 +60,10 @@
         .cake-text { flex: 1.1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 4px; text-align: center; color: #854d0e; font-size: 1.4vw; font-weight: 800; }
         .cake-phone { background: var(--accent); color: #000; padding: 4px 1.4vw; border-radius: 50px; font-size: 1.6vw; margin-top: 2px; }
 
-        /* Improved QR Styling for better scanning */
+        /* עיצוב ה-QR לסריקה מקסימלית */
         .qr-img-styled { 
-            background: white; padding: 8px; border-radius: 8px;
-            image-rendering: pixelated; 
+            background: white; padding: 6px; border-radius: 8px;
+            image-rendering: auto; 
         }
         .promo-footer { background: #fff; padding: 1vh; display: flex; align-items: center; justify-content: center; gap: 12px; border-top: 2px dashed #eab308; flex-shrink: 0; }
         .promo-footer-text { font-size: 1.1vw; font-weight: 800; color: var(--main-text); text-align: right; }
@@ -103,7 +103,7 @@
             <div id="events-list"></div>
             <div class="qr-section">
                 <div class="qr-text-side">שריון הג'ימבורי</div>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://bit.ly/4jN57oV&ecc=M&margin=4" class="qr-img-styled" style="height: 10vh; width: 10vh;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://forms.gle/FiVeEZ6pes8JKA7d6&ecc=L&margin=4" class="qr-img-styled" style="height: 11vh; width: 11vh;">
             </div>
         </div>
         <div class="card cake-promo">
@@ -116,7 +116,7 @@
             </div>
             <div class="promo-footer">
                 <div class="promo-footer-text">מעוניינים בפרסום?<br>סרקו לוואטסאפ:</div>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://wa.me/972502655525&ecc=M&margin=4" class="qr-img-styled" style="height: 9.5vh; width: 9.5vh;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://wa.me/972502655525&ecc=L&margin=4" class="qr-img-styled" style="height: 10vh; width: 10vh;">
             </div>
         </div>
     </div>
