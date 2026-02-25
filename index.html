@@ -21,6 +21,7 @@
             display: flex; flex-direction: column; overflow: hidden; color: #334155;
         }
         
+        /* Header */
         .header-wrapper { height: 12vh; display: flex; justify-content: center; align-items: center; padding: 0 1vw; }
         .header-bubble {
             width: 98%; height: 9vh; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px);
@@ -31,10 +32,9 @@
         .header-center { text-align: center; display: flex; align-items: center; justify-content: center; gap: 25px; color: white; }
         #live-clock, #live-date { font-size: 2.8vw; font-weight: 800; line-height: 1; letter-spacing: 1px; }
         .separator { width: 3px; height: 4vh; background: rgba(255,255,255,0.3); border-radius: 2px; }
-        
-        /* הגדלה של הטקסט המבוקש */
-        .header-left { text-align: left; font-size: 1.5vw; color: white; opacity: 0.8; font-weight: 800; }
+        .header-left { text-align: left; font-size: 1.6vw; color: white; opacity: 0.9; font-weight: 800; }
 
+        /* Layout */
         .stage { height: 83vh; display: flex; gap: 1.2vw; padding: 1.5vh; }
         .side-col-left { width: 25%; display: flex; flex-direction: column; gap: 1.5vh; height: 100%; }
         .center-col { width: 57%; display: flex; flex-direction: column; }
@@ -43,6 +43,7 @@
         .card { background: var(--card-bg); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
         .card-header { background: var(--title-bg); color: var(--title-text); height: 6vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.4vw; flex-shrink: 0; }
 
+        /* Events */
         #events-list { flex: 1; padding: 12px; overflow: hidden; display: flex; flex-direction: column; }
         .event-item { 
             background: #f8fafc; padding: 12px; border-radius: 12px; border-right: 6px solid #0ea5e9; 
@@ -51,33 +52,33 @@
         .event-date-pill { color: #0ea5e9; font-weight: 800; margin-left: 8px; white-space: nowrap; }
         .event-text { font-weight: 800; color: var(--main-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        .msg-bubble { background: white; padding: 18px; border-radius: 15px; border-right: 8px solid var(--accent); margin-bottom: 15px; font-size: 1.9vw; font-weight: 700; color: #1e40af; line-height: 1.3; }
+        /* QR Section - Gymboree: Centered and Tightly Packed */
+        .qr-section { background: #f0f9ff; padding: 10px; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 8px; border-top: 2px solid #bae6fd; margin-top: auto; }
+        .qr-text-side { font-size: 1.4vw; font-weight: 900; color: #0369a1; text-align: right; white-space: nowrap; }
 
-        .cake-promo { flex: 2.2; background: #fffcf0; border: 2px solid #eab308; display: flex; flex-direction: column; }
-        .slider-container { flex: 3.5; width: 100%; overflow: hidden; }
+        /* Cake Promo - Seamless image */
+        .cake-promo { flex: 2.2; background: #fffdf5; border: 2px solid #eab308; }
+        .slider-container { flex: 3; width: 100%; overflow: hidden; }
         .cake-img { width: 100%; height: 100%; object-fit: cover; }
-        .cake-text { flex: 1.5; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0.5vh; text-align: center; color: #854d0e; font-size: 1.4vw; font-weight: 800; }
-        .cake-phone { background: var(--accent); color: #000; padding: 0.4vh 1.4vw; border-radius: 50px; font-size: 1.6vw; margin-top: 0.4vh; }
+        .cake-text { flex: 1.2; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0.5vh; text-align: center; color: #854d0e; font-size: 1.4vw; font-weight: 800; }
+        .cake-phone { background: var(--accent); color: #000; padding: 0.4vh 1.4vw; border-radius: 50px; font-size: 1.6vw; margin-top: 0.4vh; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-        /* שיפור חדות QR */
+        /* QR Styling */
         .qr-img-styled { 
-            background: white; padding: 5px; border-radius: 8px; border: 1px solid #ddd; display: block;
+            background: white; padding: 4px; border-radius: 4px; border: 2px solid #000; 
             image-rendering: pixelated; 
         }
-        .promo-footer { background: #fff; padding: 1.2vh; display: flex; align-items: center; justify-content: center; gap: 12px; border-top: 2px dashed #eab308; flex-shrink: 0; }
-        .promo-footer-text { font-size: 1.3vw; font-weight: 800; color: var(--main-text); line-height: 1.2; text-align: right; }
+        .promo-footer { background: #fff; padding: 1vh; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 2px dashed #eab308; flex-shrink: 0; }
+        .promo-footer-text { font-size: 1.1vw; font-weight: 800; color: var(--main-text); text-align: right; }
         
-        .qr-section { background: #f0f9ff; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 2px solid #bae6fd; margin-top: auto; }
-        .qr-text { font-size: 1.2vw; font-weight: 900; color: #0369a1; text-align: center; }
-
+        /* General styling */
+        .msg-bubble { background: white; padding: 18px; border-radius: 15px; border-right: 8px solid var(--accent); margin-bottom: 15px; font-size: 1.9vw; font-weight: 700; color: #1e40af; line-height: 1.3; }
         .w-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 6px; padding: 8px; flex: 1; min-height: 0; }
         .w-item { background: #f1f5f9; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2px; }
         .w-temp { font-size: 2.3vw; font-weight: 900; color: var(--main-text); line-height: 1; }
         .w-icon { font-size: 2.2vw; margin: 2px 0; }
         .w-day { font-size: 1vw; font-weight: 800; color: #64748b; }
-        
         .shabbat-row { padding: 1vh 1vw; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 800; font-size: 1.2vw; color: var(--main-text); }
-
         .footer { height: 5vh; background: white; width: 100vw; display: flex; align-items: center; overflow: hidden; position: relative; border-top: 2px solid #ee2d24; }
         .ticker-move { display: inline-block; white-space: nowrap; animation: ticker-loop 200s linear infinite; font-size: 1.9vw; font-weight: 800; color: #ee2d24; }
         @keyframes ticker-loop { 0% { transform: translateX(0); } 100% { transform: translateX(100%); } }
@@ -105,8 +106,8 @@
             <div class="card-header">🗓️ לוח אירועים</div>
             <div id="events-list"></div>
             <div class="qr-section">
-                <div class="qr-text">שריון הג'ימבורי</div>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://forms.gle/FiVeEZ6pes8JKA7d6&margin=1" class="qr-img-styled" style="height: 8vh; width: 8vh;">
+                <div class="qr-text-side">שריון הג'ימבורי</div>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://forms.gle/FiVeEZ6pes8JKA7d6&ecc=L&margin=1" class="qr-img-styled" style="height: 8.5vh; width: 8.5vh;">
             </div>
         </div>
         <div class="card cake-promo">
@@ -118,8 +119,8 @@
                 <div class="cake-phone">רון: 052-2221491</div>
             </div>
             <div class="promo-footer">
-                <div class="promo-footer-text" style="font-size: 1.2vw;">מעוניינים לפרסם?<br></div>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://wa.me/972502655525&margin=1" class="qr-img-styled" style="height: 8vh; width: 8vh;">
+                <div class="promo-footer-text">מעוניינים בפרסום?<br>סרקו לוואטסאפ:</div>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://wa.me/972502655525&ecc=L&margin=1" class="qr-img-styled" style="height: 8.5vh; width: 8.5vh;">
             </div>
         </div>
     </div>
@@ -174,8 +175,7 @@
             if (data.events) {
                 document.getElementById('events-list').innerHTML = data.events.map(e => {
                     const p = e.split('|');
-                    // ניקוי שם האירוע: הסרת 00:00, הסרת נקודתיים מההתחלה בלבד, והסרת "כל היום"
-                    let nameClean = p[1].replace('00:00', '').replace(/^[:\s]+/, '').replace('כל היום:', '').trim();
+                    let nameClean = p[1].replace(/00:00/g, '').replace(/^[:\s]+/, '').replace('כל היום:', '').trim();
                     let dateClean = p[0].trim().split(' ')[0];
                     return `<div class="event-item"><span class="event-date-pill">${dateClean}:</span><span class="event-text">${nameClean}</span></div>`;
                 }).join('');
@@ -212,10 +212,7 @@
         } catch(e) {}
     }
 
-    setInterval(updateDateTime, 1000); 
-    setInterval(updateData, 30000); 
-    setInterval(fetchExternal, 600000);
-    setInterval(fetchNews, 60000);
+    setInterval(updateDateTime, 1000); setInterval(updateData, 30000); setInterval(fetchExternal, 600000); setInterval(fetchNews, 60000);
     updateDateTime(); updateData(); fetchExternal(); fetchNews();
 </script>
 </body>
