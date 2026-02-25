@@ -26,7 +26,6 @@
             border: 1px solid rgba(255,255,255,0.2); border-radius: 25px;
             display: grid; grid-template-columns: 1fr 2fr 1fr; align-items: center; padding: 0 2vw; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-
         .header-right { text-align: right; font-size: 1.6vw; font-weight: 800; color: var(--accent); }
         .header-center { text-align: center; display: flex; align-items: center; justify-content: center; gap: 25px; color: white; }
         #live-clock, #live-date { font-size: 2.5vw; font-weight: 800; line-height: 1; letter-spacing: 1px; }
@@ -34,120 +33,58 @@
         .header-left { text-align: left; font-size: 0.8vw; color: white; opacity: 0.5; font-weight: 700; }
 
         .stage { height: 83vh; display: flex; gap: 1.2vw; padding: 1.5vh; }
-        
-        .side-col-left { 
-            width: 25%; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 1.5vh; 
-            height: 100%;
-        }
-        
+        .side-col-left { width: 25%; display: flex; flex-direction: column; gap: 1.5vh; height: 100%; }
         .center-col { width: 57%; display: flex; flex-direction: column; }
         .side-col-weather { width: 18%; display: flex; flex-direction: column; gap: 1.5vh; }
 
-        /* הכרטיס המרכזי */
-        .card { 
-            background: var(--card-bg); 
-            border-radius: 20px; 
-            display: flex; 
-            flex-direction: column; 
-            overflow: hidden; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            position: relative;
-            border: none;
+        .card { background: var(--card-bg); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+        .card-header { background: var(--title-bg); color: var(--title-text); height: 6vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1vw; }
+
+        #events-list { flex: 1; padding: 12px; overflow: hidden; display: flex; flex-direction: column; }
+        .event-item { 
+            background: #f8fafc; padding: 10px; border-radius: 12px; border-right: 6px solid #0ea5e9; 
+            margin-bottom: 6px; display: flex; align-items: center; font-size: 1.1vw; 
         }
+        .event-date-pill { color: #0ea5e9; font-weight: 800; margin-left: 8px; white-space: nowrap; }
+        .event-text { font-weight: 800; color: #1e3a8a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        .msg-bubble { background: white; padding: 15px; border-radius: 15px; border-right: 8px solid var(--accent); margin-bottom: 15px; font-size: 1.6vw; font-weight: 700; color: #1e40af; }
+
+        .cake-promo { flex: 2.2; background: #fffcf0; border: 2px solid #eab308; display: flex; flex-direction: column; }
+        .slider-container { flex: 4; width: 100%; overflow: hidden; }
+        .cake-img { width: 100%; height: 100%; object-fit: cover; }
+        .cake-text { flex: 1.2; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0.5vh; text-align: center; color: #854d0e; font-size: 1.2vw; font-weight: 800; }
+        .cake-phone { background: var(--accent); color: #000; padding: 0.3vh 1.2vw; border-radius: 50px; font-size: 1.3vw; margin-top: 0.3vh; }
+
+        /* עיצוב QR - תיקון הצגה */
+        .qr-img-styled { 
+            background: white; 
+            padding: 5px; 
+            border-radius: 8px; 
+            border: 1px solid #ddd;
+            display: block;
+        }
+
+        .promo-footer { background: #fff; padding: 1vh; display: flex; align-items: center; justify-content: center; gap: 15px; border-top: 2px dashed #eab308; }
+        .promo-footer-text { font-size: 1.1vw; font-weight: 800; color: #1e3a8a; line-height: 1.2; text-align: right; }
         
-        /* כותרת מתוקנת - מצמידה לקצוות */
-        .card-header { 
-            background: var(--title-bg); 
-            color: var(--title-text); 
-            height: 6vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800; 
-            font-size: 1.1vw; 
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            border-bottom: 2px solid rgba(0,0,0,0.05);
-        }
+        .qr-section { background: #f0f9ff; padding: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 2px solid #bae6fd; margin-top: auto; }
+        .qr-text { font-size: 1vw; font-weight: 900; color: #0369a1; text-align: center; line-height: 1.1; }
 
-        .event-item { background: #f8fafc; padding: 10px; border-radius: 12px; border-right: 6px solid #0ea5e9; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .event-name { font-weight: 800; font-size: 1.2vw; color: #1e3a8a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; padding-left: 10px; }
-        .event-date { color: #0ea5e9; font-size: 1.1vw; font-weight: 800; }
-
-        .msg-bubble { background: white; padding: 15px; border-radius: 15px; border-right: 8px solid var(--accent); margin-bottom: 15px; font-size: 1.6vw; font-weight: 700; color: #1e40af; animation: fadeIn 0.5s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .cake-promo { 
-            flex-grow: 1; 
-            background: #fffcf0; 
-            border: 2px solid #eab308; 
-            display: flex; 
-            flex-direction: column; 
-        }
-        .slider-container { flex: 2; position: relative; width: 100%; overflow: hidden; background: white; }
-        .slide { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out; }
-        .slide.active { opacity: 1; }
-        
-        .cake-text { 
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 1.5vh; 
-            text-align: center; 
-            color: #854d0e; 
-            font-size: 1.5vw; 
-            font-weight: 800; 
-            line-height: 1.4; 
-        }
-        .cake-phone {
-            background: var(--accent); 
-            color: #000; 
-            padding: 0.5vh 2vw; 
-            border-radius: 50px; 
-            font-size: 1.8vw; 
-            margin-top: 1vh;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .qr-section { background: #f0f9ff; padding: 12px; display: flex; align-items: center; justify-content: space-between; border-top: 2px solid #bae6fd; }
-        .qr-text { font-size: 1.2vw; font-weight: 900; color: #0369a1; white-space: nowrap; flex: 1; text-align: center; }
-        .qr-img { height: 7vh; width: 7vh; border-radius: 8px; margin-left: 10px; }
-
+        /* Weather & Shabbat */
         .w-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 8px; padding: 1vh; flex: 1; }
-        .w-item { background: #f1f5f9; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #e2e8f0; }
-        .w-temp { font-size: 2vw; font-weight: 900; color: #1e3a8a; line-height: 1; }
-        .w-icon { font-size: 2.2vw; margin: 2px 0; }
-        .w-day { font-size: 0.9vw; font-weight: 800; color: #64748b; }
-
-        .shabbat-row { padding: 1vh 1.2vw; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 800; font-size: 1.1vw; color: #1e3a8a; }
+        .w-item { background: #f1f5f9; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .w-temp { font-size: 2vw; font-weight: 900; color: #1e3a8a; }
+        .w-icon { font-size: 2vw; }
+        .w-day { font-size: 0.8vw; font-weight: 800; color: #64748b; }
+        .shabbat-row { padding: 0.8vh 1vw; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 800; font-size: 1vw; color: #1e3a8a; }
 
         .footer { height: 5vh; background: white; width: 100vw; display: flex; align-items: center; overflow: hidden; position: relative; border-top: 2px solid #ee2d24; }
         .ticker-wrap { width: 100%; overflow: hidden; padding-right: 110px; }
-        .ticker-move { 
-            display: inline-block; 
-            white-space: nowrap; 
-            animation: ticker-loop 200s linear infinite; 
-            font-size: 1.7vw; 
-            font-weight: 800; 
-            color: #ee2d24; 
-        }
-        @keyframes ticker-loop {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(100%); }
-        }
+        .ticker-move { display: inline-block; white-space: nowrap; animation: ticker-loop 200s linear infinite; font-size: 1.7vw; font-weight: 800; color: #ee2d24; }
+        @keyframes ticker-loop { 0% { transform: translateX(0); } 100% { transform: translateX(100%); } }
         .ynet-tag { background: #ee2d24; color: white; font-weight: 900; font-size: 1.6vw; width: 100px; height: 100%; display: flex; align-items: center; justify-content: center; position: absolute; right: 0; top: 0; z-index: 10; }
-
-        .emergency { background: #ef4444; color: white; padding: 1.2vh; text-align: center; font-size: 1.5vw; font-weight: 900; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { background: #ef4444; } 50% { background: #b91c1c; } }
-
-        .shabbat-header-content { display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .shabbat-divider { opacity: 0.4; font-weight: 300; }
+        .emergency { background: #ef4444; color: white; padding: 1vh; text-align: center; font-size: 1.4vw; font-weight: 900; }
     </style>
 </head>
 <body>
@@ -166,24 +103,25 @@
 
 <div class="stage">
     <div class="side-col-left">
-        <div class="card">
+        <div class="card" style="flex: 1.3;">
             <div class="card-header">🗓️ לוח אירועים</div>
-            <div id="events-list" style="padding:12px; overflow:hidden;"></div>
+            <div id="events-list"></div>
             <div class="qr-section">
-                <span class="qr-text">שריון הג'ימבורי לאירועים</span>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://forms.gle/FiVeEZ6pes8JKA7d6" class="qr-img">
+                <div class="qr-text">שריון הג'ימבורי</div>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://forms.gle/FiVeEZ6pes8JKA7d6" class="qr-img-styled" style="height: 8vh; width: 8vh;">
             </div>
         </div>
-        
         <div class="card cake-promo">
-            <div class="slider-container" id="cake-slider">
-                <img src="https://images.unsplash.com/photo-1605807646983-377bc5a76493?w=800" class="slide active">
-                <img src="https://images.unsplash.com/photo-1509365465985-25d11c17e812?w=800" class="slide">
-                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800" class="slide">
+            <div class="slider-container">
+                <img src="https://i.postimg.cc/8PKxcRFT/PHOTO-2026-02-24-10-45-14.jpg" class="cake-img">
             </div>
             <div class="cake-text">
                 <div>עוגות שמרים מעולם אחר! 🥐</div>
-                <div class="cake-phone">שלומית: 050-9006609</div>
+                <div class="cake-phone">רון: 052-2221491</div>
+            </div>
+            <div class="promo-footer">
+                <div class="promo-footer-text">רוצה שהעסק שלך<br>יפורסם כאן? סרוק:</div>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wa.me/972502655525?text=שלום,%20אשמח%20לקבל%20פרטים%20בנוגע%20לפרסום%20מודעה" class="qr-img-styled" style="height: 9vh; width: 9vh;">
             </div>
         </div>
     </div>
@@ -206,13 +144,7 @@
             <div id="sun-box"></div>
         </div>
         <div class="card" style="background:#fffdf5; flex: 0.8;">
-            <div id="shabbat-header" class="card-header" style="background: #fef08a;">
-                <div class="shabbat-header-content">
-                    <span>שבת</span>
-                    <span class="shabbat-divider">|</span>
-                    <span id="parasha-display">טוען...</span>
-                </div>
-            </div>
+            <div id="shabbat-header" class="card-header" style="background: #fef08a;">שבת | <span id="parasha-display">...</span></div>
             <div id="shabbat-box"></div>
         </div>
     </div>
@@ -226,115 +158,57 @@
 <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyu3cJo5iSfnKWjEz-lQ8WFC-z7Y3GoLi17BKV0nIaLrF6EktyAAwV-HS2H_XoYWrmG/exec';
 
-    async function fetchNews() {
-        try {
-            const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.ynet.co.il%2FIntegration%2FStoryRss2.xml&t=${Date.now()}`);
-            const data = await res.json();
-            if(data.status === 'ok' && data.items.length > 0) {
-                const newsItems = data.items.map(i => i.title).join("  •  ");
-                document.getElementById('news-ticker').innerText = "  •  " + newsItems + "  •  " + newsItems;
-            }
-        } catch(e) {}
-    }
-
-    let currentSlide = 0;
-    function rotateSlides() {
-        const slides = document.querySelectorAll('.slide');
-        if(slides.length === 0) return;
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].classList.add('active');
-    }
-    setInterval(rotateSlides, 10000);
-
     function updateDateTime() {
         const now = new Date();
         document.getElementById('live-clock').innerText = now.toLocaleTimeString('he-IL', {hour:'2-digit', minute:'2-digit'});
-        const day = String(now.getDate()).padStart(2, '0');
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const year = String(now.getFullYear()).slice(-2);
-        document.getElementById('live-date').innerText = `${day}/${month}/${year}`;
+        document.getElementById('live-date').innerText = now.toLocaleDateString('he-IL', {day:'2-digit', month:'2-digit', year:'2-digit'});
     }
 
     async function updateData() {
         try {
             const res = await fetch(SCRIPT_URL + '?t=' + Date.now());
             const data = await res.json();
-            
-            let allMessages = data.messages || [];
-            const filteredMessages = allMessages.filter(m => 
-                m && 
-                m.toString().toLowerCase() !== 'message' && 
-                m.toString() !== 'הודעה' && 
-                m.toString().trim() !== ''
-            );
-
-            const messageBox = document.getElementById('message-box');
-            if (filteredMessages.length > 0) {
-                messageBox.innerHTML = filteredMessages.reverse().map(m => 
+            if (data.messages && data.messages.length > 1) {
+                document.getElementById('message-box').innerHTML = data.messages.slice(1).reverse().map(m => 
                     `<div class="msg-bubble">${m.toString().replace(/#/g,'<br>')}</div>`
                 ).join('');
-            } else {
-                messageBox.innerHTML = '<div class="msg-bubble">אין הודעות ועד כרגע</div>';
             }
-
             if (data.events) {
                 document.getElementById('events-list').innerHTML = data.events.map(e => {
                     const p = e.split('|');
-                    
-                    // ניקוי שעה משם האירוע
-                    let eventNameClean = p[1].replace(/\d{1,2}:\d{2}/g, '').trim();
-                    eventNameClean = eventNameClean.replace(/^[:\s\-]+|[:\s\-]+$/g, '');
-
-                    // ניקוי שעה מהתאריך
-                    const fullDate = p[0].trim();
-                    const dateOnly = fullDate.split(' ')[0]; 
-                    
-                    return `<div class="event-item">
-                                <div class="event-name">${eventNameClean}</div>
-                                <div class="event-date">${dateOnly}</div>
-                            </div>`;
+                    let nameClean = p[1].replace(/\d{1,2}:\d{2}/g, '').replace('כל היום:', '').trim().replace(/^[:\s\-]+|[:\s\-]+$/g, '');
+                    let dateClean = p[0].trim().split(' ')[0];
+                    return `<div class="event-item"><span class="event-date-pill">${dateClean}:</span><span class="event-text">${nameClean}</span></div>`;
                 }).join('');
             }
         } catch(e) {}
     }
 
-    function getWeatherIcon(code) {
-        if (code <= 1) return '☀️';
-        if (code <= 3) return '⛅';
-        if (code <= 65) return '🌧️';
-        return '☁️';
-    }
-
     async function fetchExternal() {
         try {
             const w = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.3215&longitude=34.8532&daily=temperature_2m_max,weathercode,sunrise,sunset&timezone=auto').then(r=>r.json());
+            let wHtml = '';
             const daysHeb = ['א\'', 'ב\'', 'ג\'', 'ד\'', 'ה\'', 'ו\'', 'ש\''];
             const todayNum = new Date().getDay();
-            
-            let wHtml = '';
             for(let i=0; i<4; i++) {
-                const dayLabel = daysHeb[(todayNum + i) % 7];
-                wHtml += `<div class="w-item">
-                    <span class="w-day">יום ${dayLabel}</span>
-                    <div class="w-icon">${getWeatherIcon(w.daily.weathercode[i])}</div>
-                    <div class="w-temp">${Math.round(w.daily.temperature_2m_max[i])}°</div>
-                </div>`;
+                wHtml += `<div class="w-item"><span class="w-day">יום ${daysHeb[(todayNum + i) % 7]}</span><div class="w-icon">${w.daily.weathercode[i] < 3 ? '☀️' : '☁️'}</div><div class="w-temp">${Math.round(w.daily.temperature_2m_max[i])}°</div></div>`;
             }
             document.getElementById('weather-4days').innerHTML = wHtml;
-            document.getElementById('sun-box').innerHTML = `
-                <div class="shabbat-row"><span>🌅 זריחה</span><span>${w.daily.sunrise[0].split('T')[1]}</span></div>
-                <div class="shabbat-row"><span>🌇 שקיעה</span><span>${w.daily.sunset[0].split('T')[1]}</span></div>`;
-            
+            document.getElementById('sun-box').innerHTML = `<div class="shabbat-row"><span>🌅 זריחה</span><span>${w.daily.sunrise[0].split('T')[1]}</span></div><div class="shabbat-row"><span>🌇 שקיעה</span><span>${w.daily.sunset[0].split('T')[1]}</span></div>`;
             const shabbat = await fetch('https://www.hebcal.com/shabbat?cfg=json&geonameid=293397&m=50').then(r=>r.json());
-            const candles = shabbat.items.find(i=>i.category==="candles").title.split(': ')[1];
-            const havdalah = shabbat.items.find(i=>i.category==="havdalah").title.split(': ')[1];
-            const parasha = shabbat.items.find(i=>i.category==="parashat")?.hebrew || "שבת קודש";
-            
-            document.getElementById('parasha-display').innerText = parasha;
-            document.getElementById('shabbat-box').innerHTML = `
-                <div class="shabbat-row"><span>🕯️ כניסת שבת</span><span>${candles}</span></div>
-                <div class="shabbat-row"><span>✨ צאת שבת</span><span>${havdalah}</span></div>`;
+            document.getElementById('parasha-display').innerText = shabbat.items.find(i=>i.category==="parashat")?.hebrew || "שבת";
+            document.getElementById('shabbat-box').innerHTML = `<div class="shabbat-row"><span>🕯️ כניסת שבת</span><span>${shabbat.items.find(i=>i.category==="candles").title.split(': ')[1]}</span></div><div class="shabbat-row"><span>✨ צאת שבת</span><span>${shabbat.items.find(i=>i.category==="havdalah").title.split(': ')[1]}</span></div>`;
+        } catch(e) {}
+    }
+
+    async function fetchNews() {
+        try {
+            const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.ynet.co.il%2FIntegration%2FStoryRss2.xml&t=${Date.now()}`);
+            const data = await res.json();
+            if(data.status === 'ok') {
+                const newsItems = data.items.map(i => i.title).join("  •  ");
+                document.getElementById('news-ticker').innerText = "  •  " + newsItems + "  •  " + newsItems;
+            }
         } catch(e) {}
     }
 
@@ -342,7 +216,6 @@
     setInterval(updateData, 30000); 
     setInterval(fetchExternal, 600000);
     setInterval(fetchNews, 60000);
-
     updateDateTime(); updateData(); fetchExternal(); fetchNews();
 </script>
 </body>
