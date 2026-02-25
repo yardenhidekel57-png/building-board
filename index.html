@@ -10,6 +10,7 @@
             --primary-bg: #0f172a;
             --card-bg: rgba(255, 255, 255, 0.95);
             --accent: #fbbf24;
+            --main-text: #1e3a8a;
         }
         * { box-sizing: border-box; }
         body { 
@@ -26,11 +27,11 @@
             border: 1px solid rgba(255,255,255,0.2); border-radius: 25px;
             display: grid; grid-template-columns: 1fr 2fr 1fr; align-items: center; padding: 0 2vw; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .header-right { text-align: right; font-size: 1.6vw; font-weight: 800; color: var(--accent); }
+        .header-right { text-align: right; font-size: 1.9vw; font-weight: 800; color: var(--accent); }
         .header-center { text-align: center; display: flex; align-items: center; justify-content: center; gap: 25px; color: white; }
-        #live-clock, #live-date { font-size: 2.5vw; font-weight: 800; line-height: 1; letter-spacing: 1px; }
+        #live-clock, #live-date { font-size: 2.8vw; font-weight: 800; line-height: 1; letter-spacing: 1px; }
         .separator { width: 3px; height: 4vh; background: rgba(255,255,255,0.3); border-radius: 2px; }
-        .header-left { text-align: left; font-size: 0.8vw; color: white; opacity: 0.5; font-weight: 700; }
+        .header-left { text-align: left; font-size: 1vw; color: white; opacity: 0.5; font-weight: 700; }
 
         .stage { height: 83vh; display: flex; gap: 1.2vw; padding: 1.5vh; }
         .side-col-left { width: 25%; display: flex; flex-direction: column; gap: 1.5vh; height: 100%; }
@@ -38,53 +39,45 @@
         .side-col-weather { width: 18%; display: flex; flex-direction: column; gap: 1.5vh; }
 
         .card { background: var(--card-bg); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-        .card-header { background: var(--title-bg); color: var(--title-text); height: 6vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1vw; }
+        .card-header { background: var(--title-bg); color: var(--title-text); height: 6vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.4vw; flex-shrink: 0; }
 
         #events-list { flex: 1; padding: 12px; overflow: hidden; display: flex; flex-direction: column; }
         .event-item { 
-            background: #f8fafc; padding: 10px; border-radius: 12px; border-right: 6px solid #0ea5e9; 
-            margin-bottom: 6px; display: flex; align-items: center; font-size: 1.1vw; 
+            background: #f8fafc; padding: 12px; border-radius: 12px; border-right: 6px solid #0ea5e9; 
+            margin-bottom: 8px; display: flex; align-items: center; font-size: 1.35vw; 
         }
         .event-date-pill { color: #0ea5e9; font-weight: 800; margin-left: 8px; white-space: nowrap; }
-        .event-text { font-weight: 800; color: #1e3a8a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .event-text { font-weight: 800; color: var(--main-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        .msg-bubble { background: white; padding: 15px; border-radius: 15px; border-right: 8px solid var(--accent); margin-bottom: 15px; font-size: 1.6vw; font-weight: 700; color: #1e40af; }
+        .msg-bubble { background: white; padding: 18px; border-radius: 15px; border-right: 8px solid var(--accent); margin-bottom: 15px; font-size: 1.9vw; font-weight: 700; color: #1e40af; line-height: 1.3; }
 
         .cake-promo { flex: 2.2; background: #fffcf0; border: 2px solid #eab308; display: flex; flex-direction: column; }
-        .slider-container { flex: 4; width: 100%; overflow: hidden; }
+        .slider-container { flex: 3.5; width: 100%; overflow: hidden; }
         .cake-img { width: 100%; height: 100%; object-fit: cover; }
-        .cake-text { flex: 1.2; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0.5vh; text-align: center; color: #854d0e; font-size: 1.2vw; font-weight: 800; }
-        .cake-phone { background: var(--accent); color: #000; padding: 0.3vh 1.2vw; border-radius: 50px; font-size: 1.3vw; margin-top: 0.3vh; }
+        .cake-text { flex: 1.5; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0.5vh; text-align: center; color: #854d0e; font-size: 1.4vw; font-weight: 800; }
+        .cake-phone { background: var(--accent); color: #000; padding: 0.4vh 1.4vw; border-radius: 50px; font-size: 1.6vw; margin-top: 0.4vh; }
 
-        /* עיצוב QR - תיקון הצגה */
-        .qr-img-styled { 
-            background: white; 
-            padding: 5px; 
-            border-radius: 8px; 
-            border: 1px solid #ddd;
-            display: block;
-        }
-
-        .promo-footer { background: #fff; padding: 1vh; display: flex; align-items: center; justify-content: center; gap: 15px; border-top: 2px dashed #eab308; }
-        .promo-footer-text { font-size: 1.1vw; font-weight: 800; color: #1e3a8a; line-height: 1.2; text-align: right; }
+        .qr-img-styled { background: white; padding: 5px; border-radius: 8px; border: 1px solid #ddd; display: block; }
+        .promo-footer { background: #fff; padding: 1.2vh; display: flex; align-items: center; justify-content: center; gap: 12px; border-top: 2px dashed #eab308; flex-shrink: 0; }
+        .promo-footer-text { font-size: 1.3vw; font-weight: 800; color: var(--main-text); line-height: 1.2; text-align: right; }
         
-        .qr-section { background: #f0f9ff; padding: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 2px solid #bae6fd; margin-top: auto; }
-        .qr-text { font-size: 1vw; font-weight: 900; color: #0369a1; text-align: center; line-height: 1.1; }
+        .qr-section { background: #f0f9ff; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 2px solid #bae6fd; margin-top: auto; }
+        .qr-text { font-size: 1.2vw; font-weight: 900; color: #0369a1; text-align: center; }
 
-        /* Weather & Shabbat */
-        .w-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 8px; padding: 1vh; flex: 1; }
-        .w-item { background: #f1f5f9; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .w-temp { font-size: 2vw; font-weight: 900; color: #1e3a8a; }
-        .w-icon { font-size: 2vw; }
-        .w-day { font-size: 0.8vw; font-weight: 800; color: #64748b; }
-        .shabbat-row { padding: 0.8vh 1vw; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 800; font-size: 1vw; color: #1e3a8a; }
+        /* Weather Grid Fix - Adjusted height and gaps */
+        .w-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 6px; padding: 8px; flex: 1; min-height: 0; }
+        .w-item { background: #f1f5f9; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2px; overflow: hidden; }
+        .w-temp { font-size: 2.3vw; font-weight: 900; color: var(--main-text); line-height: 1; }
+        .w-icon { font-size: 2.2vw; line-height: 1; margin: 2px 0; }
+        .w-day { font-size: 1vw; font-weight: 800; color: #64748b; margin-bottom: 2px; }
+        
+        .shabbat-row { padding: 1vh 1vw; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 800; font-size: 1.2vw; color: var(--main-text); }
 
         .footer { height: 5vh; background: white; width: 100vw; display: flex; align-items: center; overflow: hidden; position: relative; border-top: 2px solid #ee2d24; }
-        .ticker-wrap { width: 100%; overflow: hidden; padding-right: 110px; }
-        .ticker-move { display: inline-block; white-space: nowrap; animation: ticker-loop 200s linear infinite; font-size: 1.7vw; font-weight: 800; color: #ee2d24; }
+        .ticker-move { display: inline-block; white-space: nowrap; animation: ticker-loop 200s linear infinite; font-size: 1.9vw; font-weight: 800; color: #ee2d24; }
         @keyframes ticker-loop { 0% { transform: translateX(0); } 100% { transform: translateX(100%); } }
-        .ynet-tag { background: #ee2d24; color: white; font-weight: 900; font-size: 1.6vw; width: 100px; height: 100%; display: flex; align-items: center; justify-content: center; position: absolute; right: 0; top: 0; z-index: 10; }
-        .emergency { background: #ef4444; color: white; padding: 1vh; text-align: center; font-size: 1.4vw; font-weight: 900; }
+        .ynet-tag { background: #ee2d24; color: white; font-weight: 900; font-size: 1.8vw; width: 110px; height: 100%; display: flex; align-items: center; justify-content: center; position: absolute; right: 0; top: 0; z-index: 10; }
+        .emergency { background: #ef4444; color: white; padding: 1vh; text-align: center; font-size: 1.6vw; font-weight: 900; }
     </style>
 </head>
 <body>
@@ -120,7 +113,7 @@
                 <div class="cake-phone">רון: 052-2221491</div>
             </div>
             <div class="promo-footer">
-                <div class="promo-footer-text">רוצה שהעסק שלך<br>יפורסם כאן? סרוק:</div>
+                <div class="promo-footer-text">מעוניינים בפרסום?<br></div>
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wa.me/972502655525?text=שלום,%20אשמח%20לקבל%20פרטים%20בנוגע%20לפרסום%20מודעה" class="qr-img-styled" style="height: 9vh; width: 9vh;">
             </div>
         </div>
@@ -135,7 +128,7 @@
     </div>
 
     <div class="side-col-weather">
-        <div class="card" style="flex: 1.5;">
+        <div class="card" style="flex: 1.7;">
             <div class="card-header">🌡️ תחזית</div>
             <div id="weather-4days" class="w-grid"></div>
         </div>
@@ -176,7 +169,7 @@
             if (data.events) {
                 document.getElementById('events-list').innerHTML = data.events.map(e => {
                     const p = e.split('|');
-                    let nameClean = p[1].replace(/\d{1,2}:\d{2}/g, '').replace('כל היום:', '').trim().replace(/^[:\s\-]+|[:\s\-]+$/g, '');
+                    let nameClean = p[1].replace(/\d{1,2}:\d{2}/g, '').replace('כל היום:', '').trim();
                     let dateClean = p[0].trim().split(' ')[0];
                     return `<div class="event-item"><span class="event-date-pill">${dateClean}:</span><span class="event-text">${nameClean}</span></div>`;
                 }).join('');
@@ -191,7 +184,8 @@
             const daysHeb = ['א\'', 'ב\'', 'ג\'', 'ד\'', 'ה\'', 'ו\'', 'ש\''];
             const todayNum = new Date().getDay();
             for(let i=0; i<4; i++) {
-                wHtml += `<div class="w-item"><span class="w-day">יום ${daysHeb[(todayNum + i) % 7]}</span><div class="w-icon">${w.daily.weathercode[i] < 3 ? '☀️' : '☁️'}</div><div class="w-temp">${Math.round(w.daily.temperature_2m_max[i])}°</div></div>`;
+                let icon = w.daily.weathercode[i] < 3 ? '☀️' : (w.daily.weathercode[i] < 50 ? '☁️' : '🌧️');
+                wHtml += `<div class="w-item"><span class="w-day">יום ${daysHeb[(todayNum + i) % 7]}</span><div class="w-icon">${icon}</div><div class="w-temp">${Math.round(w.daily.temperature_2m_max[i])}°</div></div>`;
             }
             document.getElementById('weather-4days').innerHTML = wHtml;
             document.getElementById('sun-box').innerHTML = `<div class="shabbat-row"><span>🌅 זריחה</span><span>${w.daily.sunrise[0].split('T')[1]}</span></div><div class="shabbat-row"><span>🌇 שקיעה</span><span>${w.daily.sunset[0].split('T')[1]}</span></div>`;
