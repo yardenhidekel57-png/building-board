@@ -2,213 +2,218 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@600;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --title-bg: linear-gradient(135deg, #b2ebf2 0%, #81d4fa 100%); 
-            --title-text: #0c4a6e;
-            --primary-bg: #0f172a;
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --accent: #fbbf24;
-            --main-text: #1e3a8a;
+            --main-bg: #ffffff;
+            --accent-blue: #0056b3;
+            --sidebar-bg: #f8f9fa;
+            --text-dark: #1a1a1a;
         }
-        * { box-sizing: border-box; }
-        body { 
-            margin: 0; padding: 0; 
-            background: var(--primary-bg);
-            background-image: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-            font-family: 'Assistant', sans-serif; height: 100vh; width: 100vw; 
-            display: flex; flex-direction: column; overflow: hidden; color: #334155;
+
+        body {
+            margin: 0; padding: 0;
+            background-color: var(--main-bg);
+            font-family: 'Assistant', sans-serif;
+            height: 100vh; width: 100vw;
+            display: flex; flex-direction: column;
+            overflow: hidden; color: var(--text-dark);
         }
-        
-        .header-wrapper { height: 12vh; display: flex; justify-content: center; align-items: center; padding: 0 1vw; }
-        .header-bubble {
-            width: 98%; height: 9vh; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px);
-            border: 1px solid rgba(255,255,255,0.2); border-radius: 25px;
-            display: grid; grid-template-columns: 1fr 2fr 1fr; align-items: center; padding: 0 2vw; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+
+        /* Header - Big & Clear */
+        header {
+            height: 12vh;
+            background: var(--accent-blue);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 3vw;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
-        .header-right { text-align: right; font-size: 1.9vw; font-weight: 800; color: var(--accent); }
-        .header-center { text-align: center; display: flex; align-items: center; justify-content: center; gap: 25px; color: white; }
-        #live-clock, #live-date { font-size: 2.8vw; font-weight: 800; line-height: 1; letter-spacing: 1px; }
-        .separator { width: 3px; height: 4vh; background: rgba(255,255,255,0.3); border-radius: 2px; }
-        .header-left { text-align: left; font-size: 1.6vw; color: white; opacity: 0.9; font-weight: 800; }
 
-        .stage { height: 83vh; display: flex; gap: 1.2vw; padding: 1.5vh; }
-        .side-col-left { width: 25%; display: flex; flex-direction: column; gap: 1.5vh; height: 100%; }
-        .center-col { width: 57%; display: flex; flex-direction: column; }
-        .side-col-weather { width: 18%; display: flex; flex-direction: column; gap: 1.5vh; }
+        .clock-area { font-size: 3.5vw; font-weight: 800; }
+        .address-area { font-size: 2.2vw; font-weight: 700; }
 
-        .card { background: var(--card-bg); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-        .card-header { background: var(--title-bg); color: var(--title-text); height: 6vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.4vw; flex-shrink: 0; }
-
-        #events-list { flex: 1; padding: 12px; overflow: hidden; display: flex; flex-direction: column; }
-        .event-item { 
-            background: #f8fafc; padding: 12px; border-radius: 12px; border-right: 6px solid #0ea5e9; 
-            margin-bottom: 8px; display: flex; align-items: center; font-size: 1.35vw; 
+        /* Main Content Grid */
+        .container {
+            display: grid;
+            grid-template-columns: 30% 70%;
+            height: 83vh;
         }
-        .event-date-pill { color: #0ea5e9; font-weight: 800; margin-left: 8px; white-space: nowrap; }
-        .event-text { font-weight: 800; color: var(--main-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* QR Gymboree - שיפור ניגודיות וגודל */
-        .qr-section { background: #fff; padding: 12px; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 15px; border-top: 3px solid #0ea5e9; margin-top: auto; }
-        .qr-text-side { font-size: 1.7vw; font-weight: 900; color: #0369a1; text-align: right; }
-
-        /* Cake Promo */
-        .cake-promo { flex: 2.2; background: #fffdf5; border: 2px solid #eab308; }
-        .slider-container { flex: 3.2; width: 100%; overflow: hidden; }
-        .cake-img { width: 100%; height: 100%; object-fit: cover; }
-        .cake-text { flex: 1.1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 4px; text-align: center; color: #854d0e; font-size: 1.4vw; font-weight: 800; }
-        .cake-phone { background: var(--accent); color: #000; padding: 4px 1.4vw; border-radius: 50px; font-size: 1.6vw; margin-top: 2px; }
-
-        .qr-img-styled { 
-            background: white; padding: 5px; border: 1px solid #000;
-            image-rendering: auto; 
+        /* Right Side - Messages */
+        .main-content {
+            padding: 2vh 2vw;
+            border-right: 2px solid #ddd;
         }
-        .promo-footer { background: #fff; padding: 1vh; display: flex; align-items: center; justify-content: center; gap: 12px; border-top: 2px dashed #eab308; flex-shrink: 0; }
-        .promo-footer-text { font-size: 1.2vw; font-weight: 800; color: var(--main-text); text-align: right; }
-        
-        .msg-bubble { background: white; padding: 18px; border-radius: 15px; border-right: 8px solid var(--accent); margin-bottom: 15px; font-size: 1.9vw; font-weight: 700; color: #1e40af; line-height: 1.3; }
-        .w-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 6px; padding: 8px; flex: 1; min-height: 0; }
-        .w-item { background: #f1f5f9; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2px; }
-        .w-temp { font-size: 2.3vw; font-weight: 900; color: var(--main-text); line-height: 1; }
-        .w-icon { font-size: 2.2vw; margin: 2px 0; }
-        .w-day { font-size: 1vw; font-weight: 800; color: #64748b; }
-        .shabbat-row { padding: 1vh 1vw; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 800; font-size: 1.2vw; color: var(--main-text); }
-        .footer { height: 5vh; background: white; width: 100vw; display: flex; align-items: center; overflow: hidden; position: relative; border-top: 2px solid #ee2d24; }
-        .ticker-move { display: inline-block; white-space: nowrap; animation: ticker-loop 200s linear infinite; font-size: 1.9vw; font-weight: 800; color: #ee2d24; }
-        @keyframes ticker-loop { 0% { transform: translateX(0); } 100% { transform: translateX(100%); } }
-        .ynet-tag { background: #ee2d24; color: white; font-weight: 900; font-size: 1.8vw; width: 110px; height: 100%; display: flex; align-items: center; justify-content: center; position: absolute; right: 0; top: 0; z-index: 10; }
-        .emergency { background: #ef4444; color: white; padding: 1vh; text-align: center; font-size: 1.6vw; font-weight: 900; }
+
+        .message-card {
+            background: #fff;
+            border-right: 12px solid #ffcc00;
+            margin-bottom: 2vh;
+            padding: 2.5vh;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-size: 2.4vw;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        /* Left Side - Info & QR */
+        .sidebar {
+            background: var(--sidebar-bg);
+            padding: 2vh 1.5vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .info-box {
+            background: white;
+            padding: 2vh;
+            border-radius: 15px;
+            margin-bottom: 2vh;
+            border: 1px solid #ddd;
+        }
+
+        .info-title {
+            font-size: 1.8vw;
+            color: var(--accent-blue);
+            border-bottom: 3px solid #ffcc00;
+            margin-bottom: 1.5vh;
+            display: inline-block;
+        }
+
+        .shabbat-time { font-size: 1.8vw; font-weight: 800; margin-bottom: 1vh; }
+
+        /* The Massive QR */
+        .qr-container {
+            text-align: center;
+            background: white;
+            padding: 2vh;
+            border-radius: 20px;
+            border: 4px solid var(--accent-blue);
+        }
+
+        .qr-container img {
+            width: 18vw; /* Large for 43 inch screen */
+            height: 18vw;
+        }
+
+        .qr-label {
+            font-size: 1.8vw;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-top: 1vh;
+        }
+
+        /* Footer Ticker */
+        footer {
+            height: 5vh;
+            background: #333;
+            color: white;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            font-size: 1.6vw;
+        }
+
+        .ticker {
+            white-space: nowrap;
+            animation: move-ticker 30s linear infinite;
+            padding-right: 100%;
+        }
+
+        @keyframes move-ticker {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
     </style>
 </head>
 <body>
 
-<div class="header-wrapper">
-    <div class="header-bubble">
-        <div class="header-right">📍 דודו דותן 2, נתניה</div>
-        <div class="header-center">
-            <div id="live-date">--/--/--</div>
-            <div class="separator"></div>
-            <div id="live-clock">--:--</div>
-        </div>
-        <div class="header-left">Gal & Yarden Board ©</div>
-    </div>
-</div>
+<header>
+    <div class="address-area">📍 דודו דותן 2, נתניה</div>
+    <div class="clock-area" id="clock">00:00</div>
+</header>
 
-<div class="stage">
-    <div class="side-col-left">
-        <div class="card" style="flex: 1.3;">
-            <div class="card-header">🗓️ לוח אירועים</div>
-            <div id="events-list"></div>
-            <div class="qr-section">
-                <div class="qr-text-side">שריון<br>הג'ימבורי</div>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://forms.gle/FiVeEZ6pes8JKA7d6&ecc=L&margin=4" class="qr-img-styled" style="height: 12vh; width: 12vh;">
-            </div>
-        </div>
-        <div class="card cake-promo">
-            <div class="slider-container">
-                <img src="https://i.postimg.cc/8PKxcRFT/PHOTO-2026-02-24-10-45-14.jpg" class="cake-img">
-            </div>
-            <div class="cake-text">
-                <div>עוגות שמרים מעולם אחר! 🥐</div>
-                <div class="cake-phone">רון: 052-2221491</div>
-            </div>
-            <div class="promo-footer">
-                <div class="promo-footer-text">מעוניינים בפרסום?<br>סרקו לוואטסאפ:</div>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://wa.me/972502655525&ecc=L&margin=4" class="qr-img-styled" style="height: 10vh; width: 10vh;">
-            </div>
-        </div>
+<div class="container">
+    <div class="main-content" id="messages-list">
+        <div class="message-card">טוען הודעות ועד בית...</div>
     </div>
 
-    <div class="center-col">
-        <div class="card" style="height: 100%;">
-            <div class="card-header">📢 הודעות ועד הבית</div>
-            <div id="message-box" style="flex:1; padding:20px; overflow-y:auto;"></div>
-            <div class="emergency">🚨 טלפון חירום חב' ניהול: 053-2784358</div>
+    <div class="sidebar">
+        <div>
+            <div class="info-box">
+                <div class="info-title">זמני שבת</div>
+                <div id="shabbat-box">טוען...</div>
+            </div>
+            
+            <div class="info-box">
+                <div class="info-title">מזג אוויר</div>
+                <div id="weather-box" style="font-size: 2vw; font-weight: 800;">טוען...</div>
+            </div>
         </div>
-    </div>
 
-    <div class="side-col-weather">
-        <div class="card" style="flex: 1.7;">
-            <div class="card-header">🌡️ תחזית</div>
-            <div id="weather-4days" class="w-grid"></div>
-        </div>
-        <div class="card" style="flex: 0.8;">
-            <div class="card-header">🌅 זמני היום</div>
-            <div id="sun-box"></div>
-        </div>
-        <div class="card" style="background:#fffdf5; flex: 0.8;">
-            <div id="shabbat-header" class="card-header" style="background: #fef08a;">שבת | <span id="parasha-display">...</span></div>
-            <div id="shabbat-box"></div>
+        <div class="qr-container">
+            <div class="qr-label">לשריון הג'ימבורי:</div>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://forms.gle/FiVeEZ6pes8JKA7d6" alt="QR Code">
+            <div style="font-size: 1.3vw; color: #666;">סרקו בטלפון</div>
         </div>
     </div>
 </div>
 
-<div class="footer">
-    <div class="ynet-tag">ynet</div>
-    <div class="ticker-wrap"><div class="ticker-move" id="news-ticker">מתחבר למבזקים...</div></div>
-</div>
+<footer>
+    <div class="ticker">ברוכים הבאים ללובי דודו דותן 2 נתניה • נא לשמור על הניקיון • שיהיה לכולם יום נפלא!</div>
+</footer>
 
 <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyu3cJo5iSfnKWjEz-lQ8WFC-z7Y3GoLi17BKV0nIaLrF6EktyAAwV-HS2H_XoYWrmG/exec';
 
-    function updateDateTime() {
+    function updateClock() {
         const now = new Date();
-        document.getElementById('live-clock').innerText = now.toLocaleTimeString('he-IL', {hour:'2-digit', minute:'2-digit'});
-        document.getElementById('live-date').innerText = now.toLocaleDateString('he-IL', {day:'2-digit', month:'2-digit', year:'2-digit'});
+        document.getElementById('clock').innerText = now.toLocaleTimeString('he-IL', {hour: '2-digit', minute:'2-digit'});
     }
 
-    async function updateData() {
+    async function fetchData() {
         try {
-            const res = await fetch(SCRIPT_URL + '?t=' + Date.now());
-            const data = await res.json();
-            if (data.messages && data.messages.length > 1) {
-                document.getElementById('message-box').innerHTML = data.messages.slice(1).reverse().map(m => 
-                    `<div class="msg-bubble">${m.toString().replace(/#/g,'<br>')}</div>`
-                ).join('');
+            const response = await fetch(SCRIPT_URL);
+            const data = await response.json();
+            
+            // Render Messages
+            if (data.messages && data.messages.length > 0) {
+                const msgHtml = data.messages.slice(1).reverse().map(m => `
+                    <div class="message-card">${m}</div>
+                `).join('');
+                document.getElementById('messages-list').innerHTML = msgHtml;
             }
-            if (data.events) {
-                document.getElementById('events-list').innerHTML = data.events.map(e => {
-                    const p = e.split('|');
-                    let nameClean = p[1].replace(/00:00/g, '').replace(/^[:\s]+/, '').replace('כל היום:', '').trim();
-                    let dateClean = p[0].trim().split(' ')[0];
-                    return `<div class="event-item"><span class="event-date-pill">${dateClean}:</span><span class="event-text">${nameClean}</span></div>`;
-                }).join('');
-            }
-        } catch(e) {}
+
+            // Simple Weather API (Netanya)
+            const weatherRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.3215&longitude=34.8532&current_weather=true');
+            const weatherData = await weatherRes.json();
+            document.getElementById('weather-box').innerHTML = `☀️ ${Math.round(weatherData.current_weather.temperature)}°C`;
+
+            // Shabbat Times (Hebcal)
+            const shabbatRes = await fetch('https://www.hebcal.com/shabbat?cfg=json&geonameid=293397&m=50');
+            const shabbatData = await shabbatRes.json();
+            const candles = shabbatData.items.find(i => i.category === "candles").title;
+            const havdalah = shabbatData.items.find(i => i.category === "havdalah").title;
+            document.getElementById('shabbat-box').innerHTML = `
+                <div class="shabbat-time">🕯️ ${candles.split(': ')[1]}</div>
+                <div class="shabbat-time">✨ ${havdalah.split(': ')[1]}</div>
+            `;
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
     }
 
-    async function fetchExternal() {
-        try {
-            const w = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.3215&longitude=34.8532&daily=temperature_2m_max,weathercode,sunrise,sunset&timezone=auto').then(r=>r.json());
-            let wHtml = '';
-            const daysHeb = ['א\'', 'ב\'', 'ג\'', 'ד\'', 'ה\'', 'ו\'', 'ש\''];
-            const todayNum = new Date().getDay();
-            for(let i=0; i<4; i++) {
-                let icon = w.daily.weathercode[i] < 3 ? '☀️' : (w.daily.weathercode[i] < 50 ? '☁️' : '🌧️');
-                wHtml += `<div class="w-item"><span class="w-day">יום ${daysHeb[(todayNum + i) % 7]}</span><div class="w-icon">${icon}</div><div class="w-temp">${Math.round(w.daily.temperature_2m_max[i])}°</div></div>`;
-            }
-            document.getElementById('weather-4days').innerHTML = wHtml;
-            document.getElementById('sun-box').innerHTML = `<div class="shabbat-row"><span>🌅 זריחה</span><span>${w.daily.sunrise[0].split('T')[1]}</span></div><div class="shabbat-row"><span>🌇 שקיעה</span><span>${w.daily.sunset[0].split('T')[1]}</span></div>`;
-            const shabbat = await fetch('https://www.hebcal.com/shabbat?cfg=json&geonameid=293397&m=50').then(r=>r.json());
-            document.getElementById('parasha-display').innerText = shabbat.items.find(i=>i.category==="parashat")?.hebrew || "שבת";
-            document.getElementById('shabbat-box').innerHTML = `<div class="shabbat-row"><span>🕯️ כניסת שבת</span><span>${shabbat.items.find(i=>i.category==="candles").title.split(': ')[1]}</span></div><div class="shabbat-row"><span>✨ צאת שבת</span><span>${shabbat.items.find(i=>i.category==="havdalah").title.split(': ')[1]}</span></div>`;
-        } catch(e) {}
-    }
-
-    async function fetchNews() {
-        try {
-            const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.ynet.co.il%2FIntegration%2FStoryRss2.xml&t=${Date.now()}`);
-            const data = await res.json();
-            if(data.status === 'ok') {
-                const newsItems = data.items.map(i => i.title).join("  •  ");
-                document.getElementById('news-ticker').innerText = "  •  " + newsItems + "  •  " + newsItems;
-            }
-        } catch(e) {}
-    }
-
-    setInterval(updateDateTime, 1000); setInterval(updateData, 30000); setInterval(fetchExternal, 600000); setInterval(fetchNews, 60000);
-    updateDateTime(); updateData(); fetchExternal(); fetchNews();
+    setInterval(updateClock, 1000);
+    setInterval(fetchData, 60000); // Update every minute
+    updateClock();
+    fetchData();
 </script>
+
 </body>
 </html>
