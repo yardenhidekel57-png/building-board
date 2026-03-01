@@ -45,30 +45,34 @@
             background: #f8fafc; padding: 12px; border-radius: 12px; border-right: 6px solid #0ea5e9; 
             margin-bottom: 8px; display: flex; align-items: center; font-size: 1.35vw; 
         }
-        .event-date-pill { color: #0ea5e9; font-weight: 800; margin-left: 8px; white-space: nowrap; }
+        .event-date-pill { color: #0ea5e9; font-weight: 800; margin-left: 5px; white-space: nowrap; }
         .event-text { font-weight: 800; color: var(--main-text); }
 
         .msg-bubble { background: white; padding: 18px; border-radius: 15px; border-right: 8px solid var(--accent); margin-bottom: 15px; font-size: 1.9vw; font-weight: 700; color: #1e40af; line-height: 1.3; }
 
         .cake-promo { flex: 2.2; background: #fffcf0; border: 2px solid #eab308; display: flex; flex-direction: column; }
-        .slider-container { flex: 3.5; width: 100%; overflow: hidden; }
+        .slider-container { flex: 3; width: 100%; overflow: hidden; }
         .cake-img { width: 100%; height: 100%; object-fit: cover; }
-        .cake-text { flex: 1.5; text-align: center; color: #854d0e; font-size: 1.3vw; font-weight: 800; padding: 5px; }
-        .cake-phone { background: var(--accent); color: #000; padding: 2px 10px; border-radius: 50px; display: inline-block; margin-top: 2px; }
+        .cake-text { flex: 1; text-align: center; color: #854d0e; font-size: 1.3vw; font-weight: 800; padding: 5px; }
+        .cake-phone { background: var(--accent); color: #000; padding: 2px 10px; border-radius: 50px; display: inline-block; }
+        
+        .promo-footer { background: #fff; padding: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 1px dashed #eab308; }
+        .qr-img-styled { background: white; padding: 3px; border-radius: 5px; border: 1px solid #ddd; }
 
-        /* ynet Ticker - Fixed Version */
+        /* ynet Ticker - Fixed Direction (Left to Right) */
         .footer { height: 5vh; background: white; width: 100vw; display: flex; align-items: center; overflow: hidden; position: relative; border-top: 2px solid #ee2d24; }
-        .ticker-wrap { width: 100%; overflow: hidden; padding-right: 120px; }
         .ticker-move { 
             display: inline-block; white-space: nowrap; 
-            animation: ticker-scroll 100s linear infinite; 
+            animation: ticker-scroll 120s linear infinite; 
             font-size: 1.9vw; font-weight: 800; color: #ee2d24;
         }
         @keyframes ticker-scroll { 
-            0% { transform: translateX(100vw); } 
-            100% { transform: translateX(-100%); } 
+            0% { transform: translateX(-100%); } 
+            100% { transform: translateX(100vw); } 
         }
         .ynet-tag { background: #ee2d24; color: white; font-weight: 900; font-size: 1.8vw; width: 110px; height: 100%; display: flex; align-items: center; justify-content: center; position: absolute; right: 0; top: 0; z-index: 10; }
+        
+        .shabbat-row { padding: 0.8vh 1vw; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 800; font-size: 1.1vw; }
         .emergency { background: #ef4444; color: white; padding: 1vh; text-align: center; font-size: 1.6vw; font-weight: 900; }
     </style>
 </head>
@@ -91,14 +95,18 @@
         <div class="card" style="flex: 1.3;">
             <div class="card-header">🗓️ לוח אירועים</div>
             <div id="events-list"></div>
-            <div style="background: #f0f9ff; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                <div style="font-weight:900; color:#0369a1; font-size:1.1vw;">שריון הג'ימבורי</div>
+            <div style="background: #f0f9ff; padding: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 1px solid #bae6fd;">
+                <div style="font-weight:900; color:#0369a1; font-size:1vw;">שריון הג'ימבורי</div>
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://forms.gle/FiVeEZ6pes8JKA7d6" style="height: 6vh;">
             </div>
         </div>
         <div class="card cake-promo">
             <div class="slider-container"><img src="https://i.postimg.cc/8PKxcRFT/PHOTO-2026-02-24-10-45-14.jpg" class="cake-img"></div>
             <div class="cake-text">עוגות שמרים מעולם אחר! 🥐<br><span class="cake-phone">רון: 052-2221491</span></div>
+            <div class="promo-footer">
+                <div style="font-size: 1vw; font-weight: 800; color: #1e3a8a;">לפרסום מודעה:</div>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wa.me/972502655525" class="qr-img-styled" style="height: 6vh; width: 6vh;">
+            </div>
         </div>
     </div>
 
@@ -114,6 +122,10 @@
         <div class="card" style="flex: 1.5;">
             <div class="card-header">🌡️ תחזית</div>
             <div id="weather-4days" style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 8px;"></div>
+        </div>
+        <div class="card" style="flex: 0.8;">
+            <div class="card-header">🌅 זמני היום</div>
+            <div id="sun-box"></div>
         </div>
         <div class="card" style="background:#fffdf5; flex: 1;">
             <div class="card-header" style="background: #fef08a;">שבת | <span id="parasha-display">...</span></div>
@@ -148,10 +160,10 @@
             if (data.events) {
                 document.getElementById('events-list').innerHTML = data.events.map(e => {
                     const p = e.split('|');
-                    // חיתוך מדויק: רק 5 תווים לתאריך וניקוי כל מה שקשור לשעה מהמלל
                     let d = p[0].trim().substring(0, 5); 
+                    // הוספת נקודתיים להפרדה וניקוי השעה
                     let t = p[1].replace('00:00', '').replace(/\d{2}:\d{2}/g, '').replace(/^[:\s-]+/, '').replace('כל היום:', '').trim();
-                    return `<div class="event-item"><span class="event-date-pill">${d}</span><span class="event-text">${t}</span></div>`;
+                    return `<div class="event-item"><span class="event-date-pill">${d} :</span><span class="event-text">${t}</span></div>`;
                 }).join('');
             }
         } catch(e) {}
@@ -159,7 +171,7 @@
 
     async function fetchExternal() {
         try {
-            const w = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.3215&longitude=34.8532&daily=temperature_2m_max,weathercode&timezone=auto').then(r=>r.json());
+            const w = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.3215&longitude=34.8532&daily=temperature_2m_max,weathercode,sunrise,sunset&timezone=auto').then(r=>r.json());
             let wHtml = '';
             const daysHeb = ['א\'', 'ב\'', 'ג\'', 'ד\'', 'ה\'', 'ו\'', 'ש\''];
             const todayNum = new Date().getDay();
@@ -172,9 +184,10 @@
                           </div>`;
             }
             document.getElementById('weather-4days').innerHTML = wHtml;
+            document.getElementById('sun-box').innerHTML = `<div class="shabbat-row"><span>🌅 זריחה</span><span>${w.daily.sunrise[0].split('T')[1]}</span></div><div class="shabbat-row"><span>🌇 שקיעה</span><span>${w.daily.sunset[0].split('T')[1]}</span></div>`;
             const shabbat = await fetch('https://www.hebcal.com/shabbat?cfg=json&geonameid=293397&m=50').then(r=>r.json());
             document.getElementById('parasha-display').innerText = shabbat.items.find(i=>i.category==="parashat")?.hebrew || "שבת";
-            document.getElementById('shabbat-box').innerHTML = `<div style="padding:1vh 1vw; display:flex; justify-content:space-between; font-weight:800; font-size:1.2vw;"><span>🕯️ כניסה</span><span>${shabbat.items.find(i=>i.category==="candles").title.split(': ')[1]}</span></div><div style="padding:1vh 1vw; display:flex; justify-content:space-between; font-weight:800; font-size:1.2vw;"><span>✨ צאת</span><span>${shabbat.items.find(i=>i.category==="havdalah").title.split(': ')[1]}</span></div>`;
+            document.getElementById('shabbat-box').innerHTML = `<div class="shabbat-row"><span>🕯️ כניסה</span><span>${shabbat.items.find(i=>i.category==="candles").title.split(': ')[1]}</span></div><div class="shabbat-row"><span>✨ צאת</span><span>${shabbat.items.find(i=>i.category==="havdalah").title.split(': ')[1]}</span></div>`;
         } catch(e) {}
     }
 
