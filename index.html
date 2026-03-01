@@ -170,8 +170,8 @@
             if (data.events) {
                 document.getElementById('events-list').innerHTML = data.events.map(e => {
                     const p = e.split('|');
-                    // תיקון ממוקד: מסיר את כל הנקודתיים והרווחים שצמודים למלל
-                    let nameClean = p[1].replace(/^[\s:]+/, '').replace('כל היום:', '').trim();
+                    // פילטר להסרת 00:00, נקודתיים מיותרות ורווחים
+                    let nameClean = p[1].replace(/00:00/g, '').replace(/^[\s:]+/, '').replace('כל היום:', '').trim();
                     let dateClean = p[0].trim().split(' ')[0];
                     return `<div class="event-item"><span class="event-date-pill">${dateClean}</span><span class="event-text">${nameClean}</span></div>`;
                 }).join('');
