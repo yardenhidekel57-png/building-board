@@ -42,22 +42,25 @@
         .card { background: var(--card-bg); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
         .card-header { background: var(--title-bg); color: var(--title-text); height: 6vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.4vw; flex-shrink: 0; }
 
-        #events-list { flex: 1; padding: 12px; }
+        #events-list { flex: 1; padding: 10px; }
         .event-item { 
-            background: #f8fafc; padding: 12px; border-radius: 12px; border-right: 6px solid #0ea5e9; 
-            margin-bottom: 8px; display: flex; align-items: center; font-size: 1.35vw; 
+            background: #f8fafc; padding: 10px; border-radius: 12px; border-right: 6px solid #0ea5e9; 
+            margin-bottom: 6px; display: flex; align-items: center; font-size: 1.2vw; 
         }
         .event-date-pill { color: #0ea5e9; font-weight: 800; margin-left: 8px; }
         .event-text { font-weight: 800; color: var(--main-text); }
 
         .msg-bubble { background: white; padding: 18px; border-radius: 15px; border-right: 8px solid var(--accent); margin-bottom: 15px; font-size: 1.9vw; font-weight: 700; color: #1e40af; line-height: 1.3; }
 
-        /* כרטיס המלצות חדש במקום הפרסום */
-        .recommendation-card { flex: 2; display: flex; flex-direction: column; }
-        .recommendation-content { padding: 1.5vh; font-size: 1.5vw; font-weight: 700; color: var(--main-text); }
+        /* כרטיס המלצות מעודכן */
+        .recommendation-card { flex: 2.5; display: flex; flex-direction: column; }
+        .recommendation-content { padding: 1.2vh; overflow-y: auto; }
+        .rec-group { margin-bottom: 1.5vh; }
+        .rec-title { font-size: 1.2vw; font-weight: 800; color: #0369a1; border-bottom: 2px solid #bae6fd; margin-bottom: 5px; display: block; }
+        .rec-item { font-size: 1.1vw; font-weight: 700; color: #334155; margin-bottom: 3px; line-height: 1.2; }
 
-        .qr-section { background: #f0f9ff; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 2px solid #bae6fd; margin-top: auto; }
-        .qr-text { font-size: 1.2vw; font-weight: 900; color: #0369a1; text-align: center; }
+        .qr-section { background: #f0f9ff; padding: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 2px solid #bae6fd; margin-top: auto; }
+        .qr-text { font-size: 1vw; font-weight: 900; color: #0369a1; text-align: center; }
 
         .w-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 6px; padding: 8px; flex: 1; }
         .w-item { background: #f1f5f9; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2px; }
@@ -90,20 +93,33 @@
 
 <div class="stage">
     <div class="side-col-left">
-        <div class="card" style="flex: 1.5;">
+        <div class="card" style="flex: 1.2;">
             <div class="card-header">🗓️ לוח אירועים</div>
             <div id="events-list"></div>
             <div class="qr-section">
                 <div class="qr-text">שריון הג'ימבורי</div>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://forms.gle/FiVeEZ6pes8JKA7d6" style="height: 7vh; width: 7vh; background: white; padding: 2px; border-radius: 5px;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://forms.gle/FiVeEZ6pes8JKA7d6" style="height: 6vh; width: 6vh; background: white; padding: 2px; border-radius: 5px;">
             </div>
         </div>
         
-        <!-- הכרטיס המבוקש במקום הפרסום -->
         <div class="card recommendation-card">
             <div class="card-header" style="background: #fef08a; color: #854d0e;">👍 ניסו, בדקו, המליצו</div>
-            <div id="recommendation-content" class="recommendation-content">
-                מחכה להמלצות שלכם...
+            <div class="recommendation-content">
+                <div class="rec-group">
+                    <span class="rec-title">🔨 התקנת פרקטים</span>
+                    <div class="rec-item">אבישי גור: 050-9012123</div>
+                    <div class="rec-item">לאוניד: 052-7476167</div>
+                </div>
+                <div class="rec-group">
+                    <span class="rec-title">🚪 דלתות ממ"ד</span>
+                    <div class="rec-item">רשפים: 08-6741000</div>
+                </div>
+                <div class="rec-group">
+                    <span class="rec-title">⚙️ תיקון תריסים חשמליים</span>
+                    <div class="rec-item">בני: 052-3873355</div>
+                    <div class="rec-item">יגור: 052-5333351</div>
+                    <div class="rec-item">יגאל משלום: 052-8372412</div>
+                </div>
             </div>
         </div>
     </div>
@@ -176,7 +192,6 @@
             }
             document.getElementById('weather-4days').innerHTML = wHtml;
             document.getElementById('sun-box').innerHTML = `<div class="shabbat-row"><span>🌅 זריחה</span><span>${w.daily.sunrise[0].split('T')[1]}</span></div><div class="shabbat-row"><span>🌇 שקיעה</span><span>${w.daily.sunset[0].split('T')[1]}</span></div>`;
-            
             const shabbat = await fetch('https://www.hebcal.com/shabbat?cfg=json&geonameid=293397&m=50').then(r=>r.json());
             document.getElementById('parasha-display').innerText = shabbat.items.find(i=>i.category==="parashat")?.hebrew || "שבת";
             document.getElementById('shabbat-box').innerHTML = `<div class="shabbat-row"><span>🕯️ כניסת שבת</span><span>${shabbat.items.find(i=>i.category==="candles").title.split(': ')[1]}</span></div><div class="shabbat-row"><span>✨ צאת שבת</span><span>${shabbat.items.find(i=>i.category==="havdalah").title.split(': ')[1]}</span></div>`;
