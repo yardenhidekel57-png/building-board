@@ -21,44 +21,46 @@
             display: flex; flex-direction: column; overflow: hidden;
         }
         
+        /* כותרת עליונה */
         .header-wrapper { height: 12vh; display: flex; justify-content: center; align-items: center; }
         .header-bubble {
             width: 98%; height: 9vh; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px);
-            border-radius: 25px; display: grid; grid-template-columns: 1.2fr 1fr 1.2fr; align-items: center; padding: 0 2vw;
+            border-radius: 25px; display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; padding: 0 2vw;
         }
         .header-right { text-align: right; font-size: 1.8vw; font-weight: 800; color: var(--accent); }
         .header-center { text-align: center; color: white; font-size: 3.5vw; font-weight: 800; }
-        .header-left { text-align: left; color: white; font-size: 1.8vw; font-weight: 800; }
+        .header-left { text-align: left; color: white; font-size: 1.8vw; font-weight: 800; opacity: 0.9; }
 
-        .stage { height: 83vh; display: flex; gap: 1.2vw; padding: 1.5vh; }
-        .side-col-right { width: 28%; display: flex; flex-direction: column; gap: 1.5vh; }
+        .stage { height: 78vh; display: flex; gap: 1.2vw; padding: 1.5vh; }
         
+        /* עמודה ימנית: המלצות ולוח אירועים */
+        .side-col-right { width: 28%; display: flex; flex-direction: column; gap: 1.5vh; }
         .card { background: var(--card-bg); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
         .card-header { background: var(--title-bg); color: var(--title-text); height: 5.5vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.3vw; }
 
         .recommend-card { flex: 2.5; background: var(--recommend-bg); border: 2px solid var(--recommend-border); }
         .recommend-header { background: var(--recommend-border); color: white; height: 5.5vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.5vw; gap: 8px; }
         .recommend-list { padding: 10px; overflow-y: auto; flex: 1; }
-        
         .cat-title { font-size: 1.1vw; color: #166534; font-weight: 800; margin: 8px 0 4px 0; border-bottom: 2px solid #bbf7d0; }
-        .pro-item { 
-            background: white; padding: 6px 12px; border-radius: 10px; margin-bottom: 5px; 
-            display: flex; justify-content: space-between; align-items: center; border-right: 5px solid var(--recommend-border);
-        }
+        .pro-item { background: white; padding: 6px 12px; border-radius: 10px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; border-right: 5px solid var(--recommend-border); }
         .pro-name { font-size: 1.2vw; font-weight: 800; color: #1e293b; }
         .pro-phone { font-size: 1.2vw; color: #1e40af; font-weight: 800; }
 
-        .events-card { flex: 0.8; }
+        .events-card { flex: 1; }
+        .live-data-container { padding: 12px; font-size: 1.2vw; font-weight: 700; color: #1e3a8a; }
+
+        /* עמודה מרכזית */
         .center-col { width: 54%; display: flex; flex-direction: column; }
+        .emergency { background: #ef4444; color: white; padding: 1vh; text-align: center; font-size: 1.4vw; font-weight: 900; }
+
+        /* עמודה שמאלית */
         .side-col-left { width: 18%; display: flex; flex-direction: column; gap: 1.5vh; }
 
-        .emergency { background: #ef4444; color: white; padding: 1vh; text-align: center; font-size: 1.4vw; font-weight: 900; }
-        .footer { height: 5vh; background: white; border-top: 2px solid #ee2d24; display: flex; align-items: center; overflow: hidden; }
+        /* קרדיט ותחתית */
+        .branding-footer { height: 4vh; display: flex; justify-content: center; align-items: center; color: rgba(255,255,255,0.4); font-size: 1vw; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
+        .footer { height: 6vh; background: white; border-top: 2px solid #ee2d24; display: flex; align-items: center; overflow: hidden; }
         .ticker-move { white-space: nowrap; animation: ticker-loop 120s linear infinite; font-size: 1.8vw; font-weight: 800; color: #ee2d24; }
         @keyframes ticker-loop { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-        
-        /* עיצוב פנימי לנתונים נטענים */
-        .live-data-container { padding: 12px; font-size: 1.2vw; font-weight: 700; color: #1e3a8a; line-height: 1.4; }
     </style>
 </head>
 <body>
@@ -107,7 +109,9 @@
     </div>
 </div>
 
-<div class="footer"><div class="ticker-move" id="news-ticker">טוען מבזקים...</div></div>
+<div class="branding-footer">Gal & Yarden Board</div>
+
+<div class="footer"><div class="ticker-move" id="news-ticker">מתחבר למבזקים...</div></div>
 
 <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhGwGPiqNXmESzkgh6oW-KDGlgMaBoIiYDd0ennIUNlOwVQH2F7DWIDyZ6Fe_3wrcY/exec';
@@ -135,9 +139,7 @@
             if(data.sun) document.getElementById('sun-box').innerHTML = data.sun;
             if(data.ticker) document.getElementById('news-ticker').innerText = data.ticker;
             
-        } catch (error) {
-            console.error("Sync Error", error);
-        }
+        } catch (error) { console.log("Sync error"); }
     }
 
     setInterval(updateDateTime, 1000);
