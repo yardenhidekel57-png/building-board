@@ -75,8 +75,7 @@
         .shabbat-row { padding: 1vh 1vw; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 800; font-size: 1.2vw; color: var(--main-text); }
 
         .footer { height: 5vh; background: white; width: 100vw; display: flex; align-items: center; overflow: hidden; position: relative; border-top: 2px solid #ee2d24; }
-        .ticker-wrap { flex: 1; overflow: hidden; }
-        .ticker-move { display: inline-block; white-space: nowrap; animation: ticker-loop 120s linear infinite; font-size: 1.9vw; font-weight: 800; color: #ee2d24; padding-left: 100%; }
+        .ticker-move { display: inline-block; white-space: nowrap; animation: ticker-loop 200s linear infinite; font-size: 1.9vw; font-weight: 800; color: #ee2d24; }
         @keyframes ticker-loop { 0% { transform: translateX(0); } 100% { transform: translateX(100%); } }
         .ynet-tag { background: #ee2d24; color: white; font-weight: 900; font-size: 1.8vw; width: 110px; height: 100%; display: flex; align-items: center; justify-content: center; position: absolute; right: 0; top: 0; z-index: 10; }
         .emergency { background: #ef4444; color: white; padding: 1vh; text-align: center; font-size: 1.6vw; font-weight: 900; }
@@ -176,7 +175,7 @@
                     return `<div class="event-item"><span class="event-date-pill">${dateClean}</span><span class="event-text">${nameClean}</span></div>`;
                 }).join('');
             }
-        } catch(e) { console.log("Google Data Error"); }
+        } catch(e) {}
     }
 
     async function fetchExternal() {
@@ -191,15 +190,10 @@
             }
             document.getElementById('weather-4days').innerHTML = wHtml;
             document.getElementById('sun-box').innerHTML = `<div class="shabbat-row"><span>🌅 זריחה</span><span>${w.daily.sunrise[0].split('T')[1]}</span></div><div class="shabbat-row"><span>🌇 שקיעה</span><span>${w.daily.sunset[0].split('T')[1]}</span></div>`;
-            
             const shabbat = await fetch('https://www.hebcal.com/shabbat?cfg=json&geonameid=293397&m=50').then(r=>r.json());
-            const parasha = shabbat.items.find(i=>i.category==="parashat");
-            if(parasha) document.getElementById('parasha-display').innerText = parasha.hebrew;
-            
-            const candleIn = shabbat.items.find(i=>i.category==="candles");
-            const candleOut = shabbat.items.find(i=>i.category==="havdalah");
-            document.getElementById('shabbat-box').innerHTML = `<div class="shabbat-row"><span>🕯️ כניסת שבת</span><span>${candleIn ? candleIn.title.split(': ')[1] : '--:--'}</span></div><div class="shabbat-row"><span>✨ צאת שבת</span><span>${candleOut ? candleOut.title.split(': ')[1] : '--:--'}</span></div>`;
-        } catch(e) { console.log("External APIs Error"); }
+            document.getElementById('parasha-display').innerText = shabbat.items.find(i=>i.category==="parashat")?.hebrew || "שבת";
+            document.getElementById('shabbat-box').innerHTML = `<div class="shabbat-row"><span>🕯️ כניסת שבת</span><span>${shabbat.items.find(i=>i.category==="candles").title.split(': ')[1]}</span></div><div class="shabbat-row"><span>✨ צאת שבת</span><span>${shabbat.items.find(i=>i.category==="havdalah").title.split(': ')[1]}</span></div>`;
+        } catch(e) {}
     }
 
     async function fetchNews() {
@@ -208,20 +202,16 @@
             const data = await res.json();
             if(data.status === 'ok') {
                 const newsItems = data.items.map(i => i.title).join("  •  ");
-                document.getElementById('news-ticker').innerText = newsItems + "  •  " + newsItems;
+                document.getElementById('news-ticker').innerText = "  •  " + newsItems + "  •  " + newsItems;
             }
-        } catch(e) { console.log("News Error"); }
+        } catch(e) {}
     }
 
     setInterval(updateDateTime, 1000); 
     setInterval(updateData, 30000); 
     setInterval(fetchExternal, 600000);
     setInterval(fetchNews, 60000);
-    
-    updateDateTime(); 
-    updateData(); 
-    fetchExternal(); 
-    fetchNews();
+    updateDateTime(); updateData(); fetchExternal(); fetchNews();
 </script>
 </body>
 </html>
