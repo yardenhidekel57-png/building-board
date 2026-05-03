@@ -2,6 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@600;800&display=swap" rel="stylesheet">
     <style>
@@ -33,24 +34,25 @@
         .stage { height: 77vh; display: flex; gap: 1.2vw; padding: 1.5vh; }
         .side-col-right { width: 28%; display: flex; flex-direction: column; gap: 1.5vh; }
         
-        .card { background: var(--card-bg); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+        .card { background: var(--card-bg); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; }
         .card-header { background: var(--title-bg); color: var(--title-text); height: 5.5vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.3vw; }
 
         .recommend-card { flex: 2.5; background: var(--recommend-bg); border: 2px solid var(--recommend-border); }
-        .recommend-header { background: var(--recommend-border); color: white; height: 5.5vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.5vw; gap: 8px; }
+        .recommend-header { background: var(--recommend-border); color: white; height: 5.5vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.5vw; }
         .recommend-list { padding: 10px; overflow-y: auto; flex: 1; }
         
         .cat-title { font-size: 1.1vw; color: #166534; font-weight: 800; margin: 8px 0 4px 0; border-bottom: 2px solid #bbf7d0; }
         .pro-item { background: white; padding: 6px 12px; border-radius: 10px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; border-right: 5px solid var(--recommend-border); }
-        .pro-name { font-size: 1.2vw; font-weight: 800; color: #1e293b; }
-        .pro-phone { font-size: 1.2vw; color: #1e40af; font-weight: 800; }
 
-        .events-card { flex: 1; }
+        .events-card { flex: 1.2; position: relative; }
+        .qr-container { position: absolute; bottom: 5px; left: 5px; width: 80px; height: 80px; background: white; padding: 5px; border-radius: 8px; display: none; }
+        .qr-container img { width: 100%; height: 100%; }
+
         .center-col { width: 54%; display: flex; flex-direction: column; }
-        .side-col-left { width: 18%; display: flex; flex-direction: column; gap: 1.5vh; }
-
         .emergency { background: #ef4444; color: white; padding: 1vh; text-align: center; font-size: 1.4vw; font-weight: 900; }
         
+        .side-col-left { width: 18%; display: flex; flex-direction: column; gap: 1.5vh; }
+
         .branding-line { height: 5vh; display: flex; justify-content: center; align-items: center; color: #81d4fa; font-size: 1.2vw; font-weight: 800; letter-spacing: 4px; opacity: 0.6; }
 
         .footer { height: 6vh; background: white; border-top: 2px solid #ee2d24; display: flex; align-items: center; overflow: hidden; }
@@ -76,19 +78,20 @@
             <div class="recommend-header">⭐ ניסו, בדקו, המליצו ⭐</div>
             <div class="recommend-list">
                 <div class="cat-title">🔨 התקנת פרקטים</div>
-                <div class="pro-item"><span class="pro-name">אבישי גור</span><span class="pro-phone">050-9012123</span></div>
-                <div class="pro-item"><span class="pro-name">לאוניד</span><span class="pro-phone">052-7476167</span></div>
+                <div class="pro-item"><span>אבישי גור</span><span style="color:#1e40af">050-9012123</span></div>
+                <div class="pro-item"><span>לאוניד</span><span style="color:#1e40af">052-7476167</span></div>
                 <div class="cat-title">🚪 דלתות ממ"ד</div>
-                <div class="pro-item"><span class="pro-name">רשפים</span><span class="pro-phone">08-6741000</span></div>
+                <div class="pro-item"><span>רשפים</span><span style="color:#1e40af">08-6741000</span></div>
                 <div class="cat-title">🪟 תריסים חשמליים</div>
-                <div class="pro-item"><span class="pro-name">בני</span><span class="pro-phone">052-3873355</span></div>
-                <div class="pro-item"><span class="pro-name">יגור</span><span class="pro-phone">052-5333351</span></div>
-                <div class="pro-item"><span class="pro-name">יגאל משלום</span><span class="pro-phone">052-8372412</span></div>
+                <div class="pro-item"><span>בני</span><span style="color:#1e40af">052-3873355</span></div>
+                <div class="pro-item"><span>יגור</span><span style="color:#1e40af">052-5333351</span></div>
+                <div class="pro-item"><span>יגאל משלום</span><span style="color:#1e40af">052-8372412</span></div>
             </div>
         </div>
         <div class="card events-card">
             <div class="card-header">🗓️ לוח אירועים</div>
             <div id="events-list" class="live-text">טוען...</div>
+            <div id="qr-box" class="qr-container"><img id="qr-img" src="" alt="QR"></div>
         </div>
     </div>
 
@@ -107,7 +110,6 @@
 </div>
 
 <div class="branding-line">GAL & YARDEN BOARD</div>
-
 <div class="footer"><div class="ticker-move" id="news-ticker">מתחבר למבזקים...</div></div>
 
 <script>
@@ -121,29 +123,29 @@
 
     async function fetchUpdate() {
         try {
-            const response = await fetch(`${SCRIPT_URL}?t=${Date.now()}`);
+            // "שבירת" Cache חזקה עם מספר רנדומלי
+            const response = await fetch(`${SCRIPT_URL}?nocache=${Math.random()}`);
             const data = await response.json();
             
-            console.log("Data received:", data); // לבדיקה בקונסול
-
-            // עדכון הודעות
-            if(data.messages && data.messages.length > 1) {
-                const msgHtml = data.messages.slice(1).reverse().map(m => 
-                    `<div style="background:white; padding:15px; border-radius:15px; border-right:8px solid #fbbf24; margin-bottom:15px; font-size:1.8vw; font-weight:700; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">${m.toString().replace(/#/g,'<br>')}</div>`
+            if(data.messages) {
+                document.getElementById('message-box').innerHTML = data.messages.slice(1).reverse().map(m => 
+                    `<div style="background:white; padding:15px; border-radius:15px; border-right:8px solid #fbbf24; margin-bottom:15px; font-size:1.8vw; font-weight:700;">${m.toString().replace(/#/g,'<br>')}</div>`
                 ).join('');
-                document.getElementById('message-box').innerHTML = msgHtml;
             }
             
-            // עדכון שדות טקסט פשוטים עם הגנה
             if(data.events) document.getElementById('events-list').innerText = Array.isArray(data.events) ? data.events.join('\n') : data.events;
+            
+            // טיפול ב-QR (אם קיים בשדה ספציפי ב-JSON שלך, התאם את השם)
+            if(data.qrUrl) {
+                document.getElementById('qr-img').src = data.qrUrl;
+                document.getElementById('qr-box').style.display = 'block';
+            }
+
             if(data.weather) document.getElementById('weather-box').innerText = data.weather.replace(/<br>/g, '\n');
             if(data.sun) document.getElementById('sun-box').innerText = data.sun.replace(/<br>/g, '\n');
             if(data.ticker) document.getElementById('news-ticker').innerText = data.ticker;
             
-        } catch (error) {
-            console.error("API Error:", error);
-            document.getElementById('news-ticker').innerText = "שגיאת חיבור לנתונים - מנסה שוב...";
-        }
+        } catch (e) { console.log("Fetch error"); }
     }
 
     setInterval(updateDateTime, 1000);
