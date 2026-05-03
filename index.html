@@ -13,7 +13,6 @@
             --accent: #fbbf24;
             --recommend-bg: #f0fdf4; 
             --recommend-border: #22c55e;
-            --main-text: #1e3a8a;
         }
         * { box-sizing: border-box; }
         body { 
@@ -28,35 +27,38 @@
             border-radius: 25px; display: grid; grid-template-columns: 1fr 2fr 1fr; align-items: center; padding: 0 2vw;
         }
         .header-right { text-align: right; font-size: 1.8vw; font-weight: 800; color: var(--accent); }
-        #live-clock { font-size: 2.8vw; font-weight: 800; color: white; text-align: center; }
+        .header-center { text-align: center; color: white; }
+        #live-clock { font-size: 3vw; font-weight: 800; line-height: 1; }
+        #live-date { font-size: 1.6vw; opacity: 0.8; }
 
         .stage { height: 83vh; display: flex; gap: 1.2vw; padding: 1.5vh; }
-        .side-col-left { width: 26%; display: flex; flex-direction: column; gap: 1.5vh; }
+        .side-col-right { width: 28%; display: flex; flex-direction: column; gap: 1.5vh; }
         
         .card { background: var(--card-bg); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
         .card-header { background: var(--title-bg); color: var(--title-text); height: 5.5vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.3vw; }
 
-        /* תיבת ניסו, בדקו, המליצו */
-        .recommend-card { flex: 1.2; background: var(--recommend-bg); border: 2px solid var(--recommend-border); }
-        .recommend-header { background: var(--recommend-border); color: white; height: 5.5vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.4vw; gap: 8px; }
-        .recommend-list { padding: 12px; overflow-y: auto; flex: 1; }
+        /* תיבת המלצות משופרת */
+        .recommend-card { flex: 2; background: var(--recommend-bg); border: 2px solid var(--recommend-border); }
+        .recommend-header { background: var(--recommend-border); color: white; height: 5.5vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.5vw; gap: 8px; }
+        .recommend-list { padding: 10px; overflow-y: auto; flex: 1; }
         
+        .cat-title { font-size: 1.1vw; color: #166534; font-weight: 800; margin: 10px 0 5px 0; border-bottom: 2px solid #bbf7d0; padding-bottom: 2px; }
         .pro-item { 
-            background: white; padding: 12px; border-radius: 12px; margin-bottom: 10px; 
-            border-right: 6px solid var(--recommend-border); box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background: white; padding: 8px 12px; border-radius: 10px; margin-bottom: 6px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;
         }
-        .pro-job { font-size: 1vw; color: #166534; font-weight: 800; margin-bottom: 2px; display: block; }
-        .pro-name { font-size: 1.4vw; font-weight: 800; color: #1e293b; display: block; }
-        .pro-phone { font-size: 1.3vw; color: #1e40af; font-weight: 800; margin-top: 4px; display: flex; align-items: center; gap: 5px; }
+        .pro-info { display: flex; flex-direction: column; }
+        .pro-name { font-size: 1.3vw; font-weight: 800; color: #1e293b; }
+        .pro-phone { font-size: 1.2vw; color: #1e40af; font-weight: 800; white-space: nowrap; }
 
-        .events-card { flex: 1; }
-        #events-list { padding: 10px; flex: 1; overflow-y: auto; }
-        .event-item { background: #f1f5f9; padding: 8px; border-radius: 8px; border-right: 5px solid #0ea5e9; margin-bottom: 6px; font-size: 1.1vw; }
+        .events-card { flex: 0.7; }
+        #events-list { padding: 10px; font-size: 1.1vw; }
 
-        .center-col { width: 56%; display: flex; flex-direction: column; }
+        .center-col { width: 54%; display: flex; flex-direction: column; }
+        .emergency { background: #ef4444; color: white; padding: 1vh; text-align: center; font-size: 1.4vw; font-weight: 900; }
+
         .side-col-weather { width: 18%; display: flex; flex-direction: column; gap: 1.5vh; }
 
-        .emergency { background: #ef4444; color: white; padding: 1vh; text-align: center; font-size: 1.3vw; font-weight: 900; }
         .footer { height: 5vh; background: white; border-top: 2px solid #ee2d24; display: flex; align-items: center; overflow: hidden; }
         .ticker-move { white-space: nowrap; animation: ticker-loop 180s linear infinite; font-size: 1.8vw; font-weight: 800; color: #ee2d24; }
         @keyframes ticker-loop { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
@@ -67,29 +69,32 @@
 <div class="header-wrapper">
     <div class="header-bubble">
         <div class="header-right">📍 דודו דותן 2, נתניה</div>
-        <div class="header-center"><div id="live-clock">--:--</div></div>
+        <div class="header-center">
+            <div id="live-clock">--:--</div>
+            <div id="live-date">--/--/--</div>
+        </div>
         <div class="header-left" style="color:white; opacity:0.5; text-align: left;">Gal & Yarden Board</div>
     </div>
 </div>
 
 <div class="stage">
-    <div class="side-col-left">
-        <!-- תיבת המלצות עם הכותרת החדשה -->
+    <div class="side-col-right">
+        <!-- המלצות דיירים מעודכנות -->
         <div class="card recommend-card">
             <div class="recommend-header">⭐ ניסו, בדקו, המליצו ⭐</div>
             <div class="recommend-list">
                 
-                <div class="pro-item">
-                    <span class="pro-job">התקנת פרקטים</span>
-                    <span class="pro-name">לאוניד</span>
-                    <div class="pro-phone">📞 052-7476167</div>
-                </div>
+                <div class="cat-title">🔨 התקנת פרקטים</div>
+                <div class="pro-item"><span class="pro-name">אבישי גור</span><span class="pro-phone">050-9012123</span></div>
+                <div class="pro-item"><span class="pro-name">לאוניד</span><span class="pro-phone">052-7476167</span></div>
 
-                <div class="pro-item">
-                    <span class="pro-job">התקנת פרקטים</span>
-                    <span class="pro-name">אבישי גור</span>
-                    <div class="pro-phone">📞 050-9012123</div>
-                </div>
+                <div class="cat-title">🚪 דלתות ממ"ד</div>
+                <div class="pro-item"><span class="pro-name">רשפים</span><span class="pro-phone">08-6741000</span></div>
+
+                <div class="cat-title">🪟 תריסים חשמליים</div>
+                <div class="pro-item"><span class="pro-name">בני</span><span class="pro-phone">052-3873355</span></div>
+                <div class="pro-item"><span class="pro-name">יגור</span><span class="pro-phone">052-5333351</span></div>
+                <div class="pro-item"><span class="pro-name">יגאל משלום</span><span class="pro-phone">052-8372412</span></div>
 
             </div>
         </div>
@@ -120,6 +125,7 @@
     function updateDateTime() {
         const now = new Date();
         document.getElementById('live-clock').innerText = now.toLocaleTimeString('he-IL', {hour:'2-digit', minute:'2-digit'});
+        document.getElementById('live-date').innerText = now.toLocaleDateString('he-IL', {day:'2-digit', month:'2-digit', year:'2-digit'});
     }
     setInterval(updateDateTime, 1000); updateDateTime();
 </script>
