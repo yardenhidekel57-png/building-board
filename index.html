@@ -21,6 +21,7 @@
             display: flex; flex-direction: column; overflow: hidden;
         }
         
+        /* כותרת עליונה - מותאם לצילום המסך */
         .header-wrapper { height: 12vh; display: flex; justify-content: center; align-items: center; }
         .header-bubble {
             width: 98%; height: 9vh; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px);
@@ -32,33 +33,38 @@
         #live-date { font-size: 1.6vw; opacity: 0.8; }
 
         .stage { height: 83vh; display: flex; gap: 1.2vw; padding: 1.5vh; }
+        
+        /* עמודה ימנית: המלצות ולוח אירועים */
         .side-col-right { width: 28%; display: flex; flex-direction: column; gap: 1.5vh; }
         
         .card { background: var(--card-bg); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
         .card-header { background: var(--title-bg); color: var(--title-text); height: 5.5vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.3vw; }
 
-        /* תיבת המלצות משופרת */
-        .recommend-card { flex: 2; background: var(--recommend-bg); border: 2px solid var(--recommend-border); }
+        /* תיבת ניסו, בדקו, המליצו */
+        .recommend-card { flex: 2.2; background: var(--recommend-bg); border: 2px solid var(--recommend-border); }
         .recommend-header { background: var(--recommend-border); color: white; height: 5.5vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.5vw; gap: 8px; }
-        .recommend-list { padding: 10px; overflow-y: auto; flex: 1; }
+        .recommend-list { padding: 12px; overflow-y: auto; flex: 1; }
         
         .cat-title { font-size: 1.1vw; color: #166534; font-weight: 800; margin: 10px 0 5px 0; border-bottom: 2px solid #bbf7d0; padding-bottom: 2px; }
         .pro-item { 
             background: white; padding: 8px 12px; border-radius: 10px; margin-bottom: 6px; 
             box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;
         }
-        .pro-info { display: flex; flex-direction: column; }
         .pro-name { font-size: 1.3vw; font-weight: 800; color: #1e293b; }
-        .pro-phone { font-size: 1.2vw; color: #1e40af; font-weight: 800; white-space: nowrap; }
+        .pro-phone { font-size: 1.2vw; color: #1e40af; font-weight: 800; }
 
-        .events-card { flex: 0.7; }
-        #events-list { padding: 10px; font-size: 1.1vw; }
+        .events-card { flex: 0.8; }
+        #events-list { padding: 10px; }
+        .event-item { background: #f1f5f9; padding: 8px; border-radius: 8px; border-right: 5px solid #0ea5e9; margin-bottom: 6px; font-size: 1.1vw; font-weight: 700; }
 
+        /* עמודה מרכזית: הודעות ועד הבית */
         .center-col { width: 54%; display: flex; flex-direction: column; }
         .emergency { background: #ef4444; color: white; padding: 1vh; text-align: center; font-size: 1.4vw; font-weight: 900; }
 
-        .side-col-weather { width: 18%; display: flex; flex-direction: column; gap: 1.5vh; }
+        /* עמודה שמאלית: מזג אוויר וזמנים */
+        .side-col-left { width: 18%; display: flex; flex-direction: column; gap: 1.5vh; }
 
+        /* פס מבזקים תחתון */
         .footer { height: 5vh; background: white; border-top: 2px solid #ee2d24; display: flex; align-items: center; overflow: hidden; }
         .ticker-move { white-space: nowrap; animation: ticker-loop 180s linear infinite; font-size: 1.8vw; font-weight: 800; color: #ee2d24; }
         @keyframes ticker-loop { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
@@ -79,7 +85,7 @@
 
 <div class="stage">
     <div class="side-col-right">
-        <!-- המלצות דיירים מעודכנות -->
+        <!-- רשימת המלצות מלאה -->
         <div class="card recommend-card">
             <div class="recommend-header">⭐ ניסו, בדקו, המליצו ⭐</div>
             <div class="recommend-list">
@@ -113,21 +119,64 @@
         </div>
     </div>
 
-    <div class="side-col-weather">
-        <div class="card" style="flex: 1.5;"><div class="card-header">🌡️ תחזית</div><div id="weather-4days"></div></div>
-        <div class="card" style="flex: 1;"><div class="card-header">🌅 זמני היום</div><div id="sun-box"></div></div>
+    <div class="side-col-left">
+        <div class="card" style="flex: 1.5;"><div class="card-header">🌡️ תחזית</div><div id="weather-4days" style="padding:10px;"></div></div>
+        <div class="card" style="flex: 1;"><div class="card-header">🌅 זמני היום</div><div id="sun-box" style="padding:10px;"></div></div>
     </div>
 </div>
 
 <div class="footer"><div class="ticker-move" id="news-ticker">מתחבר למבזקים...</div></div>
 
 <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhGwGPiqNXmESzkgh6oW-KDGlgMaBoIiYDd0ennIUNlOwVQH2F7DWIDyZ6Fe_3wrcY/exec';
+
     function updateDateTime() {
         const now = new Date();
         document.getElementById('live-clock').innerText = now.toLocaleTimeString('he-IL', {hour:'2-digit', minute:'2-digit'});
         document.getElementById('live-date').innerText = now.toLocaleDateString('he-IL', {day:'2-digit', month:'2-digit', year:'2-digit'});
     }
-    setInterval(updateDateTime, 1000); updateDateTime();
+
+    async function updateLiveContent() {
+        try {
+            const res = await fetch(SCRIPT_URL + '?t=' + Date.now());
+            const data = await res.json();
+            
+            // הודעות ועד
+            if (data.messages) {
+                document.getElementById('message-box').innerHTML = data.messages.slice(1).reverse().map(m => 
+                    `<div style="background:white; padding:15px; border-radius:15px; border-right:8px solid #fbbf24; margin-bottom:15px; font-size:1.8vw; font-weight:700;">${m.toString().replace(/#/g,'<br>')}</div>`
+                ).join('');
+            }
+
+            // לוח אירועים
+            if (data.events) {
+                document.getElementById('events-list').innerHTML = data.events.map(e => {
+                    const p = e.split('|');
+                    return `<div class="event-item"><b>${p[0]}</b> | ${p[1]}</div>`;
+                }).join('');
+            }
+
+            // תחזית (מניח שקיים ב-API שלך)
+            if (data.weather) {
+                document.getElementById('weather-4days').innerHTML = data.weather;
+            }
+
+            // זמני היום
+            if (data.sun) {
+                document.getElementById('sun-box').innerHTML = data.sun;
+            }
+
+            // מבזקים
+            if (data.ticker) {
+                document.getElementById('news-ticker').innerText = data.ticker;
+            }
+        } catch(e) { console.log("Data sync error"); }
+    }
+
+    setInterval(updateDateTime, 1000);
+    setInterval(updateLiveContent, 30000);
+    updateDateTime();
+    updateLiveContent();
 </script>
 </body>
 </html>
