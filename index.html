@@ -21,53 +21,44 @@
             display: flex; flex-direction: column; overflow: hidden;
         }
         
-        /* כותרת עליונה - מותאם לצילום המסך */
         .header-wrapper { height: 12vh; display: flex; justify-content: center; align-items: center; }
         .header-bubble {
             width: 98%; height: 9vh; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px);
-            border-radius: 25px; display: grid; grid-template-columns: 1fr 2fr 1fr; align-items: center; padding: 0 2vw;
+            border-radius: 25px; display: grid; grid-template-columns: 1.2fr 1fr 1.2fr; align-items: center; padding: 0 2vw;
         }
         .header-right { text-align: right; font-size: 1.8vw; font-weight: 800; color: var(--accent); }
-        .header-center { text-align: center; color: white; }
-        #live-clock { font-size: 3vw; font-weight: 800; line-height: 1; }
-        #live-date { font-size: 1.6vw; opacity: 0.8; }
+        .header-center { text-align: center; color: white; font-size: 3.5vw; font-weight: 800; }
+        .header-left { text-align: left; color: white; font-size: 1.8vw; font-weight: 800; }
 
         .stage { height: 83vh; display: flex; gap: 1.2vw; padding: 1.5vh; }
-        
-        /* עמודה ימנית: המלצות ולוח אירועים */
         .side-col-right { width: 28%; display: flex; flex-direction: column; gap: 1.5vh; }
         
         .card { background: var(--card-bg); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
         .card-header { background: var(--title-bg); color: var(--title-text); height: 5.5vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.3vw; }
 
-        /* תיבת ניסו, בדקו, המליצו */
-        .recommend-card { flex: 2.2; background: var(--recommend-bg); border: 2px solid var(--recommend-border); }
+        .recommend-card { flex: 2.5; background: var(--recommend-bg); border: 2px solid var(--recommend-border); }
         .recommend-header { background: var(--recommend-border); color: white; height: 5.5vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.5vw; gap: 8px; }
-        .recommend-list { padding: 12px; overflow-y: auto; flex: 1; }
+        .recommend-list { padding: 10px; overflow-y: auto; flex: 1; }
         
-        .cat-title { font-size: 1.1vw; color: #166534; font-weight: 800; margin: 10px 0 5px 0; border-bottom: 2px solid #bbf7d0; padding-bottom: 2px; }
+        .cat-title { font-size: 1.1vw; color: #166534; font-weight: 800; margin: 8px 0 4px 0; border-bottom: 2px solid #bbf7d0; }
         .pro-item { 
-            background: white; padding: 8px 12px; border-radius: 10px; margin-bottom: 6px; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;
+            background: white; padding: 6px 12px; border-radius: 10px; margin-bottom: 5px; 
+            display: flex; justify-content: space-between; align-items: center; border-right: 5px solid var(--recommend-border);
         }
-        .pro-name { font-size: 1.3vw; font-weight: 800; color: #1e293b; }
+        .pro-name { font-size: 1.2vw; font-weight: 800; color: #1e293b; }
         .pro-phone { font-size: 1.2vw; color: #1e40af; font-weight: 800; }
 
         .events-card { flex: 0.8; }
-        #events-list { padding: 10px; }
-        .event-item { background: #f1f5f9; padding: 8px; border-radius: 8px; border-right: 5px solid #0ea5e9; margin-bottom: 6px; font-size: 1.1vw; font-weight: 700; }
-
-        /* עמודה מרכזית: הודעות ועד הבית */
         .center-col { width: 54%; display: flex; flex-direction: column; }
-        .emergency { background: #ef4444; color: white; padding: 1vh; text-align: center; font-size: 1.4vw; font-weight: 900; }
-
-        /* עמודה שמאלית: מזג אוויר וזמנים */
         .side-col-left { width: 18%; display: flex; flex-direction: column; gap: 1.5vh; }
 
-        /* פס מבזקים תחתון */
+        .emergency { background: #ef4444; color: white; padding: 1vh; text-align: center; font-size: 1.4vw; font-weight: 900; }
         .footer { height: 5vh; background: white; border-top: 2px solid #ee2d24; display: flex; align-items: center; overflow: hidden; }
-        .ticker-move { white-space: nowrap; animation: ticker-loop 180s linear infinite; font-size: 1.8vw; font-weight: 800; color: #ee2d24; }
+        .ticker-move { white-space: nowrap; animation: ticker-loop 120s linear infinite; font-size: 1.8vw; font-weight: 800; color: #ee2d24; }
         @keyframes ticker-loop { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        
+        /* עיצוב פנימי לנתונים נטענים */
+        .live-data-container { padding: 12px; font-size: 1.2vw; font-weight: 700; color: #1e3a8a; line-height: 1.4; }
     </style>
 </head>
 <body>
@@ -75,39 +66,30 @@
 <div class="header-wrapper">
     <div class="header-bubble">
         <div class="header-right">📍 דודו דותן 2, נתניה</div>
-        <div class="header-center">
-            <div id="live-clock">--:--</div>
-            <div id="live-date">--/--/--</div>
-        </div>
-        <div class="header-left" style="color:white; opacity:0.5; text-align: left;">Gal & Yarden Board</div>
+        <div class="header-center" id="live-clock">--:--</div>
+        <div class="header-left" id="live-date">--/--/--</div>
     </div>
 </div>
 
 <div class="stage">
     <div class="side-col-right">
-        <!-- רשימת המלצות מלאה -->
         <div class="card recommend-card">
             <div class="recommend-header">⭐ ניסו, בדקו, המליצו ⭐</div>
             <div class="recommend-list">
-                
                 <div class="cat-title">🔨 התקנת פרקטים</div>
                 <div class="pro-item"><span class="pro-name">אבישי גור</span><span class="pro-phone">050-9012123</span></div>
                 <div class="pro-item"><span class="pro-name">לאוניד</span><span class="pro-phone">052-7476167</span></div>
-
                 <div class="cat-title">🚪 דלתות ממ"ד</div>
                 <div class="pro-item"><span class="pro-name">רשפים</span><span class="pro-phone">08-6741000</span></div>
-
                 <div class="cat-title">🪟 תריסים חשמליים</div>
                 <div class="pro-item"><span class="pro-name">בני</span><span class="pro-phone">052-3873355</span></div>
                 <div class="pro-item"><span class="pro-name">יגור</span><span class="pro-phone">052-5333351</span></div>
                 <div class="pro-item"><span class="pro-name">יגאל משלום</span><span class="pro-phone">052-8372412</span></div>
-
             </div>
         </div>
-
         <div class="card events-card">
             <div class="card-header">🗓️ לוח אירועים</div>
-            <div id="events-list"></div>
+            <div id="events-list" class="live-data-container"></div>
         </div>
     </div>
 
@@ -120,12 +102,12 @@
     </div>
 
     <div class="side-col-left">
-        <div class="card" style="flex: 1.5;"><div class="card-header">🌡️ תחזית</div><div id="weather-4days" style="padding:10px;"></div></div>
-        <div class="card" style="flex: 1;"><div class="card-header">🌅 זמני היום</div><div id="sun-box" style="padding:10px;"></div></div>
+        <div class="card" style="flex: 1.5;"><div class="card-header">🌡️ תחזית</div><div id="weather-4days" class="live-data-container"></div></div>
+        <div class="card" style="flex: 1;"><div class="card-header">🌅 זמני היום</div><div id="sun-box" class="live-data-container"></div></div>
     </div>
 </div>
 
-<div class="footer"><div class="ticker-move" id="news-ticker">מתחבר למבזקים...</div></div>
+<div class="footer"><div class="ticker-move" id="news-ticker">טוען מבזקים...</div></div>
 
 <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhGwGPiqNXmESzkgh6oW-KDGlgMaBoIiYDd0ennIUNlOwVQH2F7DWIDyZ6Fe_3wrcY/exec';
@@ -136,47 +118,32 @@
         document.getElementById('live-date').innerText = now.toLocaleDateString('he-IL', {day:'2-digit', month:'2-digit', year:'2-digit'});
     }
 
-    async function updateLiveContent() {
+    async function fetchUpdate() {
         try {
-            const res = await fetch(SCRIPT_URL + '?t=' + Date.now());
-            const data = await res.json();
+            const response = await fetch(SCRIPT_URL + '?t=' + new Date().getTime());
+            const data = await response.json();
             
-            // הודעות ועד
-            if (data.messages) {
+            if(data.messages) {
                 document.getElementById('message-box').innerHTML = data.messages.slice(1).reverse().map(m => 
                     `<div style="background:white; padding:15px; border-radius:15px; border-right:8px solid #fbbf24; margin-bottom:15px; font-size:1.8vw; font-weight:700;">${m.toString().replace(/#/g,'<br>')}</div>`
                 ).join('');
             }
-
-            // לוח אירועים
-            if (data.events) {
-                document.getElementById('events-list').innerHTML = data.events.map(e => {
-                    const p = e.split('|');
-                    return `<div class="event-item"><b>${p[0]}</b> | ${p[1]}</div>`;
-                }).join('');
+            if(data.events) {
+                document.getElementById('events-list').innerHTML = data.events.map(e => `<div>• ${e}</div>`).join('');
             }
-
-            // תחזית (מניח שקיים ב-API שלך)
-            if (data.weather) {
-                document.getElementById('weather-4days').innerHTML = data.weather;
-            }
-
-            // זמני היום
-            if (data.sun) {
-                document.getElementById('sun-box').innerHTML = data.sun;
-            }
-
-            // מבזקים
-            if (data.ticker) {
-                document.getElementById('news-ticker').innerText = data.ticker;
-            }
-        } catch(e) { console.log("Data sync error"); }
+            if(data.weather) document.getElementById('weather-4days').innerHTML = data.weather;
+            if(data.sun) document.getElementById('sun-box').innerHTML = data.sun;
+            if(data.ticker) document.getElementById('news-ticker').innerText = data.ticker;
+            
+        } catch (error) {
+            console.error("Sync Error", error);
+        }
     }
 
     setInterval(updateDateTime, 1000);
-    setInterval(updateLiveContent, 30000);
+    setInterval(fetchUpdate, 30000);
     updateDateTime();
-    updateLiveContent();
+    fetchUpdate();
 </script>
 </body>
 </html>
