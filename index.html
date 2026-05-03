@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light">
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@600;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -19,7 +20,7 @@
             background: var(--primary-bg);
             background-image: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
             font-family: 'Assistant', sans-serif; height: 100vh; width: 100vw; 
-            display: flex; flex-direction: column; overflow: hidden;
+            display: flex; flex-direction: column; overflow: hidden; color: #334155;
         }
         
         .header-wrapper { height: 12vh; display: flex; justify-content: center; align-items: center; padding: 0 1vw; }
@@ -30,7 +31,7 @@
         }
         .header-right { text-align: right; font-size: 1.9vw; font-weight: 800; color: var(--accent); }
         .header-center { text-align: center; display: flex; align-items: center; justify-content: center; gap: 25px; color: white; }
-        #live-clock, #live-date { font-size: 2.8vw; font-weight: 800; line-height: 1; }
+        #live-clock, #live-date { font-size: 2.8vw; font-weight: 800; line-height: 1; letter-spacing: 1px; }
         .separator { width: 3px; height: 4vh; background: rgba(255,255,255,0.3); border-radius: 2px; }
         .header-left { text-align: left; font-size: 1vw; color: white; opacity: 0.5; font-weight: 700; }
 
@@ -42,34 +43,38 @@
         .card { background: var(--card-bg); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
         .card-header { background: var(--title-bg); color: var(--title-text); height: 6vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.4vw; flex-shrink: 0; }
 
-        #events-list { flex: 1; padding: 10px; }
+        #events-list { flex: 1; padding: 12px; overflow: hidden; display: flex; flex-direction: column; }
         .event-item { 
-            background: #f8fafc; padding: 10px; border-radius: 12px; border-right: 6px solid #0ea5e9; 
-            margin-bottom: 6px; display: flex; align-items: center; font-size: 1.2vw; 
+            background: #f8fafc; padding: 12px; border-radius: 12px; border-right: 6px solid #0ea5e9; 
+            margin-bottom: 8px; display: flex; align-items: center; font-size: 1.35vw; 
         }
-        .event-date-pill { color: #0ea5e9; font-weight: 800; margin-left: 8px; }
-        .event-text { font-weight: 800; color: var(--main-text); }
+        .event-date-pill { color: #0ea5e9; font-weight: 800; margin-left: 8px; white-space: nowrap; }
+        .event-text { font-weight: 800; color: var(--main-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         .msg-bubble { background: white; padding: 18px; border-radius: 15px; border-right: 8px solid var(--accent); margin-bottom: 15px; font-size: 1.9vw; font-weight: 700; color: #1e40af; line-height: 1.3; }
 
-        .recommendation-card { flex: 2.5; display: flex; flex-direction: column; }
-        .recommendation-content { padding: 1.2vh; overflow-y: auto; }
-        .rec-group { margin-bottom: 1.5vh; }
-        .rec-title { font-size: 1.2vw; font-weight: 800; color: #0369a1; border-bottom: 2px solid #bae6fd; margin-bottom: 5px; display: block; }
-        .rec-item { font-size: 1.1vw; font-weight: 700; color: #334155; margin-bottom: 3px; line-height: 1.2; }
+        .cake-promo { flex: 2.2; background: #fffcf0; border: 2px solid #eab308; display: flex; flex-direction: column; }
+        .slider-container { flex: 3.5; width: 100%; overflow: hidden; }
+        .cake-img { width: 100%; height: 100%; object-fit: cover; }
+        .cake-text { flex: 1.5; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0.5vh; text-align: center; color: #854d0e; font-size: 1.4vw; font-weight: 800; }
+        .cake-phone { background: var(--accent); color: #000; padding: 0.4vh 1.4vw; border-radius: 50px; font-size: 1.6vw; margin-top: 0.4vh; }
 
-        .qr-section { background: #f0f9ff; padding: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 2px solid #bae6fd; margin-top: auto; }
-        .qr-text { font-size: 1vw; font-weight: 900; color: #0369a1; text-align: center; }
+        .qr-img-styled { background: white; padding: 5px; border-radius: 8px; border: 1px solid #ddd; display: block; }
+        .promo-footer { background: #fff; padding: 1.2vh; display: flex; align-items: center; justify-content: center; gap: 12px; border-top: 2px dashed #eab308; flex-shrink: 0; }
+        .promo-footer-text { font-size: 1.3vw; font-weight: 800; color: var(--main-text); line-height: 1.2; text-align: right; }
+        
+        .qr-section { background: #f0f9ff; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 2px solid #bae6fd; margin-top: auto; }
+        .qr-text { font-size: 1.2vw; font-weight: 900; color: #0369a1; text-align: center; }
 
-        .w-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 6px; padding: 8px; flex: 1; }
-        .w-item { background: #f1f5f9; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2px; }
+        .w-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 6px; padding: 8px; flex: 1; min-height: 0; }
+        .w-item { background: #f1f5f9; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2px; overflow: hidden; }
         .w-temp { font-size: 2.3vw; font-weight: 900; color: var(--main-text); line-height: 1; }
-        .w-icon { font-size: 2.2vw; margin: 2px 0; }
-        .w-day { font-size: 1vw; font-weight: 800; color: #64748b; }
+        .w-icon { font-size: 2.2vw; line-height: 1; margin: 2px 0; }
+        .w-day { font-size: 1vw; font-weight: 800; color: #64748b; margin-bottom: 2px; }
         
         .shabbat-row { padding: 1vh 1vw; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 800; font-size: 1.2vw; color: var(--main-text); }
 
-        .footer { height: 5vh; background: white; width: 100vw; display: flex; align-items: center; position: relative; border-top: 2px solid #ee2d24; }
+        .footer { height: 5vh; background: white; width: 100vw; display: flex; align-items: center; overflow: hidden; position: relative; border-top: 2px solid #ee2d24; }
         .ticker-move { display: inline-block; white-space: nowrap; animation: ticker-loop 200s linear infinite; font-size: 1.9vw; font-weight: 800; color: #ee2d24; }
         @keyframes ticker-loop { 0% { transform: translateX(0); } 100% { transform: translateX(100%); } }
         .ynet-tag { background: #ee2d24; color: white; font-weight: 900; font-size: 1.8vw; width: 110px; height: 100%; display: flex; align-items: center; justify-content: center; position: absolute; right: 0; top: 0; z-index: 10; }
@@ -92,35 +97,25 @@
 
 <div class="stage">
     <div class="side-col-left">
-        <!-- המלצות עבר למעלה -->
-        <div class="card recommendation-card">
-            <div class="card-header" style="background: #fef08a; color: #854d0e;">דיירים ממליצים</div>
-            <div class="recommendation-content">
-                <div class="rec-group">
-                    <span class="rec-title">🔨 התקנת פרקטים</span>
-                    <div class="rec-item">אבישי גור: 050-9012123</div>
-                    <div class="rec-item">לאוניד: 052-7476167</div>
-                </div>
-                <div class="rec-group">
-                    <span class="rec-title">🚪 דלתות ממ"ד</span>
-                    <div class="rec-item">רשפים: 08-6741000</div>
-                </div>
-                <div class="rec-group">
-                    <span class="rec-title">⚙️ תיקון תריסים חשמליים</span>
-                    <div class="rec-item">בני: 052-3873355</div>
-                    <div class="rec-item">יגור: 052-5333351</div>
-                    <div class="rec-item">יגאל משולם: 052-8372412</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- לוח אירועים עבר למטה -->
-        <div class="card" style="flex: 1.2;">
+        <div class="card" style="flex: 1.3;">
             <div class="card-header">🗓️ לוח אירועים</div>
             <div id="events-list"></div>
             <div class="qr-section">
                 <div class="qr-text">שריון הג'ימבורי</div>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://forms.gle/FiVeEZ6pes8JKA7d6" style="height: 6vh; width: 6vh; background: white; padding: 2px; border-radius: 5px;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://forms.gle/FiVeEZ6pes8JKA7d6" class="qr-img-styled" style="height: 8vh; width: 8vh;">
+            </div>
+        </div>
+        <div class="card cake-promo">
+            <div class="slider-container">
+                <img src="https://i.postimg.cc/8PKxcRFT/PHOTO-2026-02-24-10-45-14.jpg" class="cake-img">
+            </div>
+            <div class="cake-text">
+                <div>עוגות שמרים מעולם אחר! 🥐</div>
+                <div class="cake-phone">רון: 052-2221491</div>
+            </div>
+            <div class="promo-footer">
+                <div class="promo-footer-text">מעוניינים בפרסום?<br>סרקו:</div>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fwa.me%2F972502655525%3Ftext%3D%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A7%D7%91%D7%9C%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D%20%D7%91%D7%A0%D7%95%D7%92%D7%A2%20%D7%9C%D7%A4%D7%A8%D7%A1%D7%95%D7%9D" class="qr-img-styled" style="height: 11vh; width: 11vh;">
             </div>
         </div>
     </div>
@@ -151,7 +146,7 @@
 
 <div class="footer">
     <div class="ynet-tag">ynet</div>
-    <div id="news-ticker" class="ticker-move">מתחבר למבזקים...</div>
+    <div class="ticker-wrap"><div class="ticker-move" id="news-ticker">מתחבר למבזקים...</div></div>
 </div>
 
 <script>
@@ -167,7 +162,7 @@
         try {
             const res = await fetch(SCRIPT_URL + '?t=' + Date.now());
             const data = await res.json();
-            if (data.messages) {
+            if (data.messages && data.messages.length > 1) {
                 document.getElementById('message-box').innerHTML = data.messages.slice(1).reverse().map(m => 
                     `<div class="msg-bubble">${m.toString().replace(/#/g,'<br>')}</div>`
                 ).join('');
@@ -175,7 +170,9 @@
             if (data.events) {
                 document.getElementById('events-list').innerHTML = data.events.map(e => {
                     const p = e.split('|');
-                    return `<div class="event-item"><span class="event-date-pill">${p[0].split(' ')[0]}</span><span class="event-text">${p[1].replace('כל היום:', '').trim()}</span></div>`;
+                    let nameClean = p[1].replace(/00:00/g, '').replace(/^[\s:]+/, '').replace('כל היום:', '').trim();
+                    let dateClean = p[0].trim().split(' ')[0];
+                    return `<div class="event-item"><span class="event-date-pill">${dateClean}</span><span class="event-text">${nameClean}</span></div>`;
                 }).join('');
             }
         } catch(e) {}
