@@ -11,6 +11,8 @@
             --primary-bg: #0f172a;
             --card-bg: rgba(255, 255, 255, 0.95);
             --accent: #fbbf24;
+            --recommend-bg: #f0fdf4; 
+            --recommend-border: #22c55e;
             --main-text: #1e3a8a;
         }
         * { box-sizing: border-box; }
@@ -25,36 +27,37 @@
             width: 98%; height: 9vh; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px);
             border-radius: 25px; display: grid; grid-template-columns: 1fr 2fr 1fr; align-items: center; padding: 0 2vw;
         }
-        .header-right { text-align: right; font-size: 1.9vw; font-weight: 800; color: var(--accent); }
-        .header-center { text-align: center; display: flex; align-items: center; justify-content: center; gap: 25px; color: white; }
-        #live-clock, #live-date { font-size: 2.8vw; font-weight: 800; }
+        .header-right { text-align: right; font-size: 1.8vw; font-weight: 800; color: var(--accent); }
+        #live-clock { font-size: 2.8vw; font-weight: 800; color: white; text-align: center; }
 
         .stage { height: 83vh; display: flex; gap: 1.2vw; padding: 1.5vh; }
+        .side-col-left { width: 26%; display: flex; flex-direction: column; gap: 1.5vh; }
         
-        /* עמודה שמאלית - כאן בוצע השינוי */
-        .side-col-left { width: 25%; display: flex; flex-direction: column; gap: 1.5vh; }
+        .card { background: var(--card-bg); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+        .card-header { background: var(--title-bg); color: var(--title-text); height: 5.5vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.3vw; }
+
+        /* תיבת ניסו, בדקו, המליצו */
+        .recommend-card { flex: 1.2; background: var(--recommend-bg); border: 2px solid var(--recommend-border); }
+        .recommend-header { background: var(--recommend-border); color: white; height: 5.5vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.4vw; gap: 8px; }
+        .recommend-list { padding: 12px; overflow-y: auto; flex: 1; }
         
-        /* תיבת פרסום חדשה וקטנה למעלה */
-        .general-promo { 
-            flex: 0.4; background: white; border-radius: 20px; 
-            display: flex; align-items: center; justify-content: space-around; padding: 10px;
+        .pro-item { 
+            background: white; padding: 12px; border-radius: 12px; margin-bottom: 10px; 
+            border-right: 6px solid var(--recommend-border); box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+        .pro-job { font-size: 1vw; color: #166534; font-weight: 800; margin-bottom: 2px; display: block; }
+        .pro-name { font-size: 1.4vw; font-weight: 800; color: #1e293b; display: block; }
+        .pro-phone { font-size: 1.3vw; color: #1e40af; font-weight: 800; margin-top: 4px; display: flex; align-items: center; gap: 5px; }
 
-        .card { background: var(--card-bg); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; }
-        .card-header { background: var(--title-bg); color: var(--title-text); height: 6vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.4vw; }
+        .events-card { flex: 1; }
+        #events-list { padding: 10px; flex: 1; overflow-y: auto; }
+        .event-item { background: #f1f5f9; padding: 8px; border-radius: 8px; border-right: 5px solid #0ea5e9; margin-bottom: 6px; font-size: 1.1vw; }
 
-        /* לוח אירועים - עכשיו מקבל גמישות */
-        .events-card { flex: 1.6; display: flex; flex-direction: column; }
-        #events-list { flex: 1; padding: 12px; overflow-y: auto; }
-        .event-item { background: #f8fafc; padding: 10px; border-radius: 12px; border-right: 6px solid #0ea5e9; margin-bottom: 8px; display: flex; font-size: 1.2vw; }
-
-        .center-col { width: 57%; display: flex; flex-direction: column; }
+        .center-col { width: 56%; display: flex; flex-direction: column; }
         .side-col-weather { width: 18%; display: flex; flex-direction: column; gap: 1.5vh; }
 
-        .qr-section { background: #f0f9ff; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 2px solid #bae6fd; }
-        .emergency { background: #ef4444; color: white; padding: 1vh; text-align: center; font-size: 1.4vw; font-weight: 900; }
-
-        .footer { height: 5vh; background: white; position: relative; border-top: 2px solid #ee2d24; display: flex; align-items: center; }
+        .emergency { background: #ef4444; color: white; padding: 1vh; text-align: center; font-size: 1.3vw; font-weight: 900; }
+        .footer { height: 5vh; background: white; border-top: 2px solid #ee2d24; display: flex; align-items: center; overflow: hidden; }
         .ticker-move { white-space: nowrap; animation: ticker-loop 180s linear infinite; font-size: 1.8vw; font-weight: 800; color: #ee2d24; }
         @keyframes ticker-loop { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
     </style>
@@ -64,30 +67,36 @@
 <div class="header-wrapper">
     <div class="header-bubble">
         <div class="header-right">📍 דודו דותן 2, נתניה</div>
-        <div class="header-center">
-            <div id="live-date">--/--/--</div>
-            <div id="live-clock">--:--</div>
-        </div>
-        <div class="header-left" style="color:white; opacity:0.5;">Gal & Yarden Board</div>
+        <div class="header-center"><div id="live-clock">--:--</div></div>
+        <div class="header-left" style="color:white; opacity:0.5; text-align: left;">Gal & Yarden Board</div>
     </div>
 </div>
 
 <div class="stage">
     <div class="side-col-left">
-        <!-- פרסום כללי למעלה -->
-        <div class="general-promo">
-            <div style="font-weight: 800; color: var(--main-text); font-size: 1.1vw;">מעוניינים לפרסם כאן?<br>סרקו לפרטים:</div>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://wa.me/972502655525" style="height: 8vh; border-radius: 5px;">
+        <!-- תיבת המלצות עם הכותרת החדשה -->
+        <div class="card recommend-card">
+            <div class="recommend-header">⭐ ניסו, בדקו, המליצו ⭐</div>
+            <div class="recommend-list">
+                
+                <div class="pro-item">
+                    <span class="pro-job">התקנת פרקטים</span>
+                    <span class="pro-name">לאוניד</span>
+                    <div class="pro-phone">📞 052-7476167</div>
+                </div>
+
+                <div class="pro-item">
+                    <span class="pro-job">התקנת פרקטים</span>
+                    <span class="pro-name">אבישי גור</span>
+                    <div class="pro-phone">📞 050-9012123</div>
+                </div>
+
+            </div>
         </div>
 
-        <!-- לוח אירועים בתחתית העמודה -->
         <div class="card events-card">
             <div class="card-header">🗓️ לוח אירועים</div>
             <div id="events-list"></div>
-            <div class="qr-section">
-                <div style="font-size: 1vw; font-weight: 900;">שריון הג'ימבורי:</div>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://forms.gle/FiVeEZ6pes8JKA7d6" style="height: 6vh;">
-            </div>
         </div>
     </div>
 
@@ -95,58 +104,24 @@
         <div class="card" style="height: 100%;">
             <div class="card-header">📢 הודעות ועד הבית</div>
             <div id="message-box" style="flex:1; padding:20px; overflow-y:auto;"></div>
-            <div class="emergency">🚨 טלפון חירום חב' ניהול: 052-6663722</div>
+            <div class="emergency">🚨 חירום חב' ניהול: 052-6663722</div>
         </div>
     </div>
 
     <div class="side-col-weather">
-        <div class="card" style="flex: 1.5;">
-            <div class="card-header">🌡️ תחזית</div>
-            <div id="weather-4days" style="padding:10px;"></div>
-        </div>
-        <div class="card" style="flex: 1;">
-            <div class="card-header">🌅 זמני היום</div>
-            <div id="sun-box"></div>
-        </div>
+        <div class="card" style="flex: 1.5;"><div class="card-header">🌡️ תחזית</div><div id="weather-4days"></div></div>
+        <div class="card" style="flex: 1;"><div class="card-header">🌅 זמני היום</div><div id="sun-box"></div></div>
     </div>
 </div>
 
-<div class="footer">
-    <div class="ticker-move" id="news-ticker">מתחבר למבזקים...</div>
-</div>
+<div class="footer"><div class="ticker-move" id="news-ticker">מתחבר למבזקים...</div></div>
 
 <script>
-    // הפונקציות נשארות זהות לקוד המקורי שלך (JS)
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhGwGPiqNXmESzkgh6oW-KDGlgMaBoIiYDd0ennIUNlOwVQH2F7DWIDyZ6Fe_3wrcY/exec';
-    
     function updateDateTime() {
         const now = new Date();
         document.getElementById('live-clock').innerText = now.toLocaleTimeString('he-IL', {hour:'2-digit', minute:'2-digit'});
-        document.getElementById('live-date').innerText = now.toLocaleDateString('he-IL', {day:'2-digit', month:'2-digit', year:'2-digit'});
     }
-
-    async function updateData() {
-        try {
-            const res = await fetch(SCRIPT_URL + '?t=' + Date.now());
-            const data = await res.json();
-            if (data.messages) {
-                document.getElementById('message-box').innerHTML = data.messages.slice(1).reverse().map(m => 
-                    `<div style="background:white; padding:15px; border-radius:15px; border-right:8px solid #fbbf24; margin-bottom:15px; font-size:1.8vw; font-weight:700;">${m.toString().replace(/#/g,'<br>')}</div>`
-                ).join('');
-            }
-            if (data.events) {
-                document.getElementById('events-list').innerHTML = data.events.map(e => {
-                    const p = e.split('|');
-                    return `<div class="event-item"><b>${p[0].split(' ')[0]}</b> | ${p[1]}</div>`;
-                }).join('');
-            }
-        } catch(e) {}
-    }
-
-    setInterval(updateDateTime, 1000); 
-    setInterval(updateData, 30000);
-    updateDateTime(); updateData();
+    setInterval(updateDateTime, 1000); updateDateTime();
 </script>
-
 </body>
 </html>
