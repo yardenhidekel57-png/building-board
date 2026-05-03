@@ -41,12 +41,11 @@
         .recommend-header { background: var(--recommend-border); color: white; height: 5.5vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.5vw; }
         .recommend-list { padding: 10px; overflow-y: auto; flex: 1; }
         
-        .cat-title { font-size: 1.1vw; color: #166534; font-weight: 800; margin: 8px 0 4px 0; border-bottom: 2px solid #bbf7d0; }
-        .pro-item { background: white; padding: 6px 12px; border-radius: 10px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; border-right: 5px solid var(--recommend-border); }
+        .pro-item { background: white; padding: 6px 12px; border-radius: 10px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; border-right: 5px solid var(--recommend-border); font-size: 1.2vw; font-weight: 800; }
 
         .events-card { flex: 1.2; position: relative; }
-        .qr-container { position: absolute; bottom: 5px; left: 5px; width: 80px; height: 80px; background: white; padding: 5px; border-radius: 8px; display: none; }
-        .qr-container img { width: 100%; height: 100%; }
+        .qr-area { position: absolute; bottom: 10px; left: 10px; width: 90px; height: 90px; background: white; padding: 5px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); display: none; }
+        .qr-area img { width: 100%; height: 100%; object-fit: contain; }
 
         .center-col { width: 54%; display: flex; flex-direction: column; }
         .emergency { background: #ef4444; color: white; padding: 1vh; text-align: center; font-size: 1.4vw; font-weight: 900; }
@@ -77,12 +76,12 @@
         <div class="card recommend-card">
             <div class="recommend-header">⭐ ניסו, בדקו, המליצו ⭐</div>
             <div class="recommend-list">
-                <div class="cat-title">🔨 התקנת פרקטים</div>
+                <div style="font-size:1vw; color:#166534; font-weight:800; margin-bottom:5px;">🔨 התקנת פרקטים</div>
                 <div class="pro-item"><span>אבישי גור</span><span style="color:#1e40af">050-9012123</span></div>
                 <div class="pro-item"><span>לאוניד</span><span style="color:#1e40af">052-7476167</span></div>
-                <div class="cat-title">🚪 דלתות ממ"ד</div>
+                <div style="font-size:1vw; color:#166534; font-weight:800; margin:10px 0 5px 0;">🚪 דלתות ממ"ד</div>
                 <div class="pro-item"><span>רשפים</span><span style="color:#1e40af">08-6741000</span></div>
-                <div class="cat-title">🪟 תריסים חשמליים</div>
+                <div style="font-size:1vw; color:#166534; font-weight:800; margin:10px 0 5px 0;">🪟 תריסים חשמליים</div>
                 <div class="pro-item"><span>בני</span><span style="color:#1e40af">052-3873355</span></div>
                 <div class="pro-item"><span>יגור</span><span style="color:#1e40af">052-5333351</span></div>
                 <div class="pro-item"><span>יגאל משלום</span><span style="color:#1e40af">052-8372412</span></div>
@@ -90,8 +89,10 @@
         </div>
         <div class="card events-card">
             <div class="card-header">🗓️ לוח אירועים</div>
-            <div id="events-list" class="live-text">טוען...</div>
-            <div id="qr-box" class="qr-container"><img id="qr-img" src="" alt="QR"></div>
+            <div id="events-list" class="live-text">טוען נתונים...</div>
+            <div id="qr-box" class="qr-area">
+                <img id="qr-img" src="" alt="QR">
+            </div>
         </div>
     </div>
 
@@ -113,6 +114,7 @@
 <div class="footer"><div class="ticker-move" id="news-ticker">מתחבר למבזקים...</div></div>
 
 <script>
+    // וודא שהכתובת הזו מעודכנת ומפורסמת כ-"Anyone"
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhGwGPiqNXmESzkgh6oW-KDGlgMaBoIiYDd0ennIUNlOwVQH2F7DWIDyZ6Fe_3wrcY/exec';
 
     function updateDateTime() {
@@ -123,10 +125,13 @@
 
     async function fetchUpdate() {
         try {
-            // "שבירת" Cache חזקה עם מספר רנדומלי
-            const response = await fetch(`${SCRIPT_URL}?nocache=${Math.random()}`);
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 שניות טיימאאוט
+
+            const response = await fetch(`${SCRIPT_URL}?nocache=${Date.now()}`, { signal: controller.signal });
             const data = await response.json();
-            
+            clearTimeout(timeoutId);
+
             if(data.messages) {
                 document.getElementById('message-box').innerHTML = data.messages.slice(1).reverse().map(m => 
                     `<div style="background:white; padding:15px; border-radius:15px; border-right:8px solid #fbbf24; margin-bottom:15px; font-size:1.8vw; font-weight:700;">${m.toString().replace(/#/g,'<br>')}</div>`
@@ -135,21 +140,26 @@
             
             if(data.events) document.getElementById('events-list').innerText = Array.isArray(data.events) ? data.events.join('\n') : data.events;
             
-            // טיפול ב-QR (אם קיים בשדה ספציפי ב-JSON שלך, התאם את השם)
-            if(data.qrUrl) {
+            // הצגת QR - וודא שהשדה ב-JSON נקרא qrUrl
+            if(data.qrUrl && data.qrUrl.startsWith('http')) {
                 document.getElementById('qr-img').src = data.qrUrl;
                 document.getElementById('qr-box').style.display = 'block';
+            } else {
+                document.getElementById('qr-box').style.display = 'none';
             }
 
             if(data.weather) document.getElementById('weather-box').innerText = data.weather.replace(/<br>/g, '\n');
             if(data.sun) document.getElementById('sun-box').innerText = data.sun.replace(/<br>/g, '\n');
             if(data.ticker) document.getElementById('news-ticker').innerText = data.ticker;
             
-        } catch (e) { console.log("Fetch error"); }
+        } catch (e) {
+            console.error("Fetch failed", e);
+            document.getElementById('events-list').innerText = "שגיאת תקשורת...";
+        }
     }
 
     setInterval(updateDateTime, 1000);
-    setInterval(fetchUpdate, 30000);
+    setInterval(fetchUpdate, 45000); // רענון כל 45 שניות
     updateDateTime();
     fetchUpdate();
 </script>
