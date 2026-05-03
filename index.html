@@ -52,7 +52,6 @@
 
         .msg-bubble { background: white; padding: 18px; border-radius: 15px; border-right: 8px solid var(--accent); margin-bottom: 15px; font-size: 1.9vw; font-weight: 700; color: #1e40af; line-height: 1.3; }
 
-        /* כרטיס המלצות מעודכן */
         .recommendation-card { flex: 2.5; display: flex; flex-direction: column; }
         .recommendation-content { padding: 1.2vh; overflow-y: auto; }
         .rec-group { margin-bottom: 1.5vh; }
@@ -93,15 +92,7 @@
 
 <div class="stage">
     <div class="side-col-left">
-        <div class="card" style="flex: 1.2;">
-            <div class="card-header">🗓️ לוח אירועים</div>
-            <div id="events-list"></div>
-            <div class="qr-section">
-                <div class="qr-text">שריון הג'ימבורי</div>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://forms.gle/FiVeEZ6pes8JKA7d6" style="height: 6vh; width: 6vh; background: white; padding: 2px; border-radius: 5px;">
-            </div>
-        </div>
-        
+        <!-- המלצות עבר למעלה -->
         <div class="card recommendation-card">
             <div class="card-header" style="background: #fef08a; color: #854d0e;">👍 ניסו, בדקו, המליצו</div>
             <div class="recommendation-content">
@@ -120,6 +111,16 @@
                     <div class="rec-item">יגור: 052-5333351</div>
                     <div class="rec-item">יגאל משלום: 052-8372412</div>
                 </div>
+            </div>
+        </div>
+
+        <!-- לוח אירועים עבר למטה -->
+        <div class="card" style="flex: 1.2;">
+            <div class="card-header">🗓️ לוח אירועים</div>
+            <div id="events-list"></div>
+            <div class="qr-section">
+                <div class="qr-text">שריון הג'ימבורי</div>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://forms.gle/FiVeEZ6pes8JKA7d6" style="height: 6vh; width: 6vh; background: white; padding: 2px; border-radius: 5px;">
             </div>
         </div>
     </div>
