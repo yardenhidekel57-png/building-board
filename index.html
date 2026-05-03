@@ -43,7 +43,7 @@
         .card { background: var(--card-bg); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
         .card-header { background: var(--title-bg); color: var(--title-text); height: 6vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.4vw; flex-shrink: 0; }
 
-        #events-list { flex: 1; padding: 12px; overflow: hidden; display: flex; flex-direction: column; }
+        #events-list { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; }
         .event-item { 
             background: #f8fafc; padding: 12px; border-radius: 12px; border-right: 6px solid #0ea5e9; 
             margin-bottom: 8px; display: flex; align-items: center; font-size: 1.35vw; 
@@ -52,12 +52,6 @@
         .event-text { font-weight: 800; color: var(--main-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         .msg-bubble { background: white; padding: 18px; border-radius: 15px; border-right: 8px solid var(--accent); margin-bottom: 15px; font-size: 1.9vw; font-weight: 700; color: #1e40af; line-height: 1.3; }
-
-        .cake-promo { flex: 2.2; background: #fffcf0; border: 2px solid #eab308; display: flex; flex-direction: column; }
-        .slider-container { flex: 3.5; width: 100%; overflow: hidden; }
-        .cake-img { width: 100%; height: 100%; object-fit: cover; }
-        .cake-text { flex: 1.5; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0.5vh; text-align: center; color: #854d0e; font-size: 1.4vw; font-weight: 800; }
-        .cake-phone { background: var(--accent); color: #000; padding: 0.4vh 1.4vw; border-radius: 50px; font-size: 1.6vw; margin-top: 0.4vh; }
 
         .qr-img-styled { background: white; padding: 5px; border-radius: 8px; border: 1px solid #ddd; display: block; }
         .promo-footer { background: #fff; padding: 1.2vh; display: flex; align-items: center; justify-content: center; gap: 12px; border-top: 2px dashed #eab308; flex-shrink: 0; }
@@ -97,25 +91,20 @@
 
 <div class="stage">
     <div class="side-col-left">
-        <div class="card" style="flex: 1.3;">
+        <!-- פרסום כללי הועלה למעלה במקום העוגות -->
+        <div class="card" style="flex: 0.5;">
+            <div class="promo-footer" style="height: 100%; border:none;">
+                <div class="promo-footer-text">מעוניינים בפרסום?<br>סרקו:</div>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fwa.me%2F972502655525%3Ftext%3D%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A7%D7%91%D7%9C%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D%20%D7%91%D7%A0%D7%95%D7%92%D7%A2%20%D7%9C%D7%A4%D7%A8%D7%A1%D7%95%D7%9D" class="qr-img-styled" style="height: 10vh; width: 10vh;">
+            </div>
+        </div>
+        <!-- לוח אירועים ירד למטה -->
+        <div class="card" style="flex: 1.5;">
             <div class="card-header">🗓️ לוח אירועים</div>
             <div id="events-list"></div>
             <div class="qr-section">
                 <div class="qr-text">שריון הג'ימבורי</div>
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://forms.gle/FiVeEZ6pes8JKA7d6" class="qr-img-styled" style="height: 8vh; width: 8vh;">
-            </div>
-        </div>
-        <div class="card cake-promo">
-            <div class="slider-container">
-                <img src="https://i.postimg.cc/8PKxcRFT/PHOTO-2026-02-24-10-45-14.jpg" class="cake-img">
-            </div>
-            <div class="cake-text">
-                <div>עוגות שמרים מעולם אחר! 🥐</div>
-                <div class="cake-phone">רון: 052-2221491</div>
-            </div>
-            <div class="promo-footer">
-                <div class="promo-footer-text">מעוניינים בפרסום?<br>סרקו:</div>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fwa.me%2F972502655525%3Ftext%3D%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A7%D7%91%D7%9C%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D%20%D7%91%D7%A0%D7%95%D7%92%D7%A2%20%D7%9C%D7%A4%D7%A8%D7%A1%D7%95%D7%9D" class="qr-img-styled" style="height: 11vh; width: 11vh;">
             </div>
         </div>
     </div>
