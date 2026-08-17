@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="light">
-    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@600;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --title-bg: linear-gradient(135deg, #b2ebf2 0%, #81d4fa 100%); 
@@ -53,57 +53,67 @@
 
         .msg-bubble { background: white; padding: 18px; border-radius: 15px; border-right: 8px solid var(--accent); margin-bottom: 15px; font-size: 1.9vw; font-weight: 700; color: #1e40af; line-height: 1.3; }
 
-        .cake-promo { flex: 2.2; background: #fffcf0; border: 2px solid #eab308; display: flex; flex-direction: column; }
-        .slider-container { flex: 3.5; width: 100%; overflow: hidden; }
-        .cake-img { width: 100%; height: 100%; object-fit: cover; }
-        .cake-text { flex: 1.5; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0.5vh; text-align: center; color: #854d0e; font-size: 1.4vw; font-weight: 800; }
-        .cake-phone { background: var(--accent); color: #000; padding: 0.4vh 1.4vw; border-radius: 50px; font-size: 1.6vw; margin-top: 0.4vh; }
-
-        /* כרטיס פרטי בנק מועצב */
-        .bank-card {
-            background: linear-gradient(135deg, #ffffff 0%, #fefce8 100%);
-            border: 2px solid #f59e0b;
-            border-radius: 16px;
-            padding: 1vh 1vw;
+        /* כרטיס פרטי בנק חדש, נקי וקריא */
+        .bank-card-container {
+            flex: 2.2;
+            background: #ffffff;
+            border-radius: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: space-around;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            border: 2px solid #0284c7;
+        }
+        .bank-card-header {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            height: 5.5vh;
+            display: flex;
             align-items: center;
-            box-shadow: inset 0 0 15px rgba(245, 158, 11, 0.1);
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.35vw;
             flex-shrink: 0;
+            gap: 8px;
         }
-        .bank-header {
-            font-size: 1.2vw;
-            font-weight: 800;
-            color: #b45309;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .bank-details-box {
-            width: 100%;
+        .bank-card-body {
+            flex: 1;
+            padding: 1.2vh 1vw;
             display: flex;
             flex-direction: column;
-            gap: 0.4vh;
-            margin-top: 0.5vh;
+            justify-content: space-between;
+            background: #f8fafc;
         }
-        .bank-row {
-            background: rgba(254, 243, 199, 0.7);
-            border-radius: 8px;
-            padding: 0.5vh 0.8vw;
-            font-size: 1.1vw;
-            font-weight: 800;
-            color: #78350f;
+        .bank-info-row {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 0.8vh 1vw;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .bank-acc-highlight {
-            background: #f59e0b;
-            color: #ffffff;
+        .bank-info-label {
             font-size: 1.2vw;
+            font-weight: 800;
+            color: #475569;
+        }
+        .bank-info-value {
+            font-size: 1.35vw;
             font-weight: 900;
-            letter-spacing: 0.5px;
+            color: #0f172a;
+        }
+        .bank-info-row.highlight {
+            background: #f0f9ff;
+            border: 2px solid #38bdf8;
+        }
+        .bank-info-row.highlight .bank-info-label {
+            color: #0369a1;
+        }
+        .bank-info-row.highlight .bank-info-value {
+            font-size: 1.6vw;
+            color: #0284c7;
+            letter-spacing: 1px;
         }
 
         .qr-img-styled { background: white; padding: 5px; border-radius: 8px; border: 1px solid #ddd; display: block; }
@@ -149,30 +159,25 @@
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://forms.gle/FiVeEZ6pes8JKA7d6" class="qr-img-styled" style="height: 8vh; width: 8vh;">
             </div>
         </div>
-        <div class="card cake-promo">
-            <div class="slider-container">
-                <img src="https://i.postimg.cc/8PKxcRFT/PHOTO-2026-02-24-10-45-14.jpg" class="cake-img">
+        
+        <!-- כרטיס פרטי בנק לתשלומי ועד -->
+        <div class="bank-card-container">
+            <div class="bank-card-header">
+                <span>🏦</span>
+                <span>פרטי חשבון בנק לתשלומי ועד</span>
             </div>
-            <div class="cake-text">
-                <div>עוגות שמרים מעולם אחר! 🥐</div>
-                <div class="cake-phone">שלומית: 050-9006609</div>
-            </div>
-            <!-- אזור תשלום ועד הבית המעודכן -->
-            <div class="bank-card">
-                <div class="bank-header">💳 תשלום מוזל/העברה לוועד</div>
-                <div class="bank-details-box">
-                    <div class="bank-row">
-                        <span>בנק:</span>
-                        <span>לאומי (10)</span>
-                    </div>
-                    <div class="bank-row">
-                        <span>סניף:</span>
-                        <span>681 - רמת פולג</span>
-                    </div>
-                    <div class="bank-row bank-acc-highlight">
-                        <span>מס' חשבון:</span>
-                        <span>2042292</span>
-                    </div>
+            <div class="bank-card-body">
+                <div class="bank-info-row">
+                    <span class="bank-info-label">בנק:</span>
+                    <span class="bank-info-value">לאומי (10)</span>
+                </div>
+                <div class="bank-info-row">
+                    <span class="bank-info-label">סניף:</span>
+                    <span class="bank-info-value">681 – רמת פולג</span>
+                </div>
+                <div class="bank-info-row highlight">
+                    <span class="bank-info-label">מס' חשבון:</span>
+                    <span class="bank-info-value">2042292</span>
                 </div>
             </div>
         </div>
