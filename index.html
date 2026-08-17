@@ -53,70 +53,17 @@
 
         .msg-bubble { background: white; padding: 18px; border-radius: 15px; border-right: 8px solid var(--accent); margin-bottom: 15px; font-size: 1.9vw; font-weight: 700; color: #1e40af; line-height: 1.3; }
 
-        /* כרטיס פרטי בנק חדש, נקי וקריא */
-        .bank-card-container {
-            flex: 2.2;
-            background: #ffffff;
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            border: 2px solid #0284c7;
-        }
-        .bank-card-header {
-            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-            color: #ffffff;
-            height: 5.5vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.35vw;
-            flex-shrink: 0;
-            gap: 8px;
-        }
-        .bank-card-body {
-            flex: 1;
-            padding: 1.2vh 1vw;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            background: #f8fafc;
-        }
-        .bank-info-row {
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            border-radius: 12px;
-            padding: 0.8vh 1vw;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .bank-info-label {
-            font-size: 1.2vw;
-            font-weight: 800;
-            color: #475569;
-        }
-        .bank-info-value {
-            font-size: 1.35vw;
-            font-weight: 900;
-            color: #0f172a;
-        }
-        .bank-info-row.highlight {
-            background: #f0f9ff;
-            border: 2px solid #38bdf8;
-        }
-        .bank-info-row.highlight .bank-info-label {
-            color: #0369a1;
-        }
-        .bank-info-row.highlight .bank-info-value {
-            font-size: 1.6vw;
-            color: #0284c7;
-            letter-spacing: 1px;
-        }
+        /* עיצוב משודרג לפרסומת דוגווקר */
+        .dog-promo { flex: 2.2; background: #f0fdf4; border: 2px solid #22c55e; display: flex; flex-direction: column; }
+        .slider-container { flex: 3.5; width: 100%; overflow: hidden; }
+        .dog-img { width: 100%; height: 100%; object-fit: cover; }
+        .dog-text { flex: 1.5; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0.5vh; text-align: center; color: #14532d; font-size: 1.35vw; font-weight: 800; }
+        .dog-phone { background: #22c55e; color: #ffffff; padding: 0.4vh 1.4vw; border-radius: 50px; font-size: 1.5vw; font-weight: 900; margin-top: 0.4vh; box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3); }
 
         .qr-img-styled { background: white; padding: 5px; border-radius: 8px; border: 1px solid #ddd; display: block; }
+        .promo-footer { background: #fff; padding: 1.2vh; display: flex; align-items: center; justify-content: center; gap: 12px; border-top: 2px dashed #22c55e; flex-shrink: 0; }
+        .promo-footer-text { font-size: 1.3vw; font-weight: 800; color: var(--main-text); line-height: 1.2; text-align: right; }
+        
         .qr-section { background: #f0f9ff; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 2px solid #bae6fd; margin-top: auto; }
         .qr-text { font-size: 1.2vw; font-weight: 900; color: #0369a1; text-align: center; }
 
@@ -159,26 +106,17 @@
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://forms.gle/FiVeEZ6pes8JKA7d6" class="qr-img-styled" style="height: 8vh; width: 8vh;">
             </div>
         </div>
-        
-        <!-- כרטיס פרטי בנק לתשלומי ועד -->
-        <div class="bank-card-container">
-            <div class="bank-card-header">
-                <span>🏦</span>
-                <span>פרטי חשבון בנק לתשלומי ועד</span>
+        <div class="card dog-promo">
+            <div class="slider-container">
+                <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=800&q=80" class="dog-img" alt="Dog Walker">
             </div>
-            <div class="bank-card-body">
-                <div class="bank-info-row">
-                    <span class="bank-info-label">בנק:</span>
-                    <span class="bank-info-value">לאומי (10)</span>
-                </div>
-                <div class="bank-info-row">
-                    <span class="bank-info-label">סניף:</span>
-                    <span class="bank-info-value">681 – רמת פולג</span>
-                </div>
-                <div class="bank-info-row highlight">
-                    <span class="bank-info-label">מס' חשבון:</span>
-                    <span class="bank-info-value">2042292</span>
-                </div>
+            <div class="dog-text">
+                <div>טיולים באהבה לחבר הכי טוב! 🐶🐾</div>
+                <div class="dog-phone">חן דוגווקרית: 050-8591360</div>
+            </div>
+            <div class="promo-footer">
+                <div class="promo-footer-text">מעוניינים בפרסום?<br>סרקו:</div>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fwa.me%2F972502655525%3Ftext%3D%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A7%D7%91%D7%9C%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D%20%D7%91%D7%A0%D7%95%D7%92%D7%A2%20%D7%9C%D7%A4%D7%A8%D7%A1%D7%95%D7%9D" class="qr-img-styled" style="height: 11vh; width: 11vh;">
             </div>
         </div>
     </div>
