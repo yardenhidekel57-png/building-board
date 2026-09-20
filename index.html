@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@600;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --title-bg: linear-gradient(135deg, #b2ebf2 0%, #81d4fa 100%); 
+            --title-bg: linear-gradient(135deg, #b2ebf2 0%, #81d4fa 100%);
             --title-text: #0c4a6e;
             --primary-bg: #0f172a;
             --card-bg: rgba(255, 255, 255, 0.95);
@@ -15,14 +15,14 @@
             --main-text: #1e3a8a;
         }
         * { box-sizing: border-box; }
-        body { 
-            margin: 0; padding: 0; 
+        body {
+            margin: 0; padding: 0;
             background: var(--primary-bg);
             background-image: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-            font-family: 'Assistant', sans-serif; height: 100vh; width: 100vw; 
+            font-family: 'Assistant', sans-serif; height: 100vh; width: 100vw;
             display: flex; flex-direction: column; overflow: hidden; color: #334155;
         }
-        
+
         .header-wrapper { height: 12vh; display: flex; justify-content: center; align-items: center; padding: 0 1vw; }
         .header-bubble {
             width: 98%; height: 9vh; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px);
@@ -44,9 +44,9 @@
         .card-header { background: var(--title-bg); color: var(--title-text); height: 6vh; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.4vw; flex-shrink: 0; }
 
         #events-list { flex: 1; padding: 12px; overflow: hidden; display: flex; flex-direction: column; }
-        .event-item { 
-            background: #f8fafc; padding: 12px; border-radius: 12px; border-right: 6px solid #0ea5e9; 
-            margin-bottom: 8px; display: flex; align-items: center; font-size: 1.35vw; 
+        .event-item {
+            background: #f8fafc; padding: 12px; border-radius: 12px; border-right: 6px solid #0ea5e9;
+            margin-bottom: 8px; display: flex; align-items: center; font-size: 1.35vw;
         }
         .event-date-pill { color: #0ea5e9; font-weight: 800; margin-left: 8px; white-space: nowrap; }
         .event-text { font-weight: 800; color: var(--main-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -62,7 +62,7 @@
         .qr-img-styled { background: white; padding: 5px; border-radius: 8px; border: 1px solid #ddd; display: block; }
         .promo-footer { background: #fff; padding: 1.2vh; display: flex; align-items: center; justify-content: center; gap: 12px; border-top: 2px dashed #22c55e; flex-shrink: 0; }
         .promo-footer-text { font-size: 1.3vw; font-weight: 800; color: var(--main-text); line-height: 1.2; text-align: right; }
-        
+
         .qr-section { background: #f0f9ff; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 2px solid #bae6fd; margin-top: auto; }
         .qr-text { font-size: 1.2vw; font-weight: 900; color: #0369a1; text-align: center; }
 
@@ -71,7 +71,7 @@
         .w-temp { font-size: 2.3vw; font-weight: 900; color: var(--main-text); line-height: 1; }
         .w-icon { font-size: 2.2vw; line-height: 1; margin: 2px 0; }
         .w-day { font-size: 1vw; font-weight: 800; color: #64748b; margin-bottom: 2px; }
-        
+
         .shabbat-row { padding: 1vh 1vw; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 800; font-size: 1.2vw; color: var(--main-text); }
 
         .footer { height: 5vh; background: white; width: 100vw; display: flex; align-items: center; overflow: hidden; position: relative; border-top: 2px solid #ee2d24; }
@@ -79,9 +79,19 @@
         @keyframes ticker-loop { 0% { transform: translateX(0); } 100% { transform: translateX(100%); } }
         .ynet-tag { background: #ee2d24; color: white; font-weight: 900; font-size: 1.8vw; width: 110px; height: 100%; display: flex; align-items: center; justify-content: center; position: absolute; right: 0; top: 0; z-index: 10; }
         .emergency { background: #ef4444; color: white; padding: 1vh; text-align: center; font-size: 1.6vw; font-weight: 900; }
+
+        #keep-awake-video { position: absolute; width: 1px; height: 1px; opacity: 0.01; pointer-events: none; }
     </style>
 </head>
 <body>
+
+<!-- Tiny local (no network dependency) silent looping video: some Android TV / TVBRO
+     setups are less likely to hand off to the system screensaver while a video is
+     actively playing. Embedded as a data URI so it never depends on an external host
+     that could itself be unreachable during an outage. -->
+<video id="keep-awake-video" playsinline muted loop autoplay>
+    <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAMxbW9vdgAAAGxtdmhkAAAAAAAAAAAAAAAAAAAD6AAAB9AAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAlt0cmFrAAAAXHRraGQAAAADAAAAAAAAAAAAAAABAAAAAAAAB9AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAABAAAAAQAAAAAAAkZWR0cwAAABxlbHN0AAAAAAAAAAEAAAfQAAAAAAABAAAAAAHTbWRpYQAAACBtZGhkAAAAAAAAAAAAAAAAAABAAAAAgABVxAAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAABfm1pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAAT5zdGJsAAAAvnN0c2QAAAAAAAAAAQAAAK5hdmMxAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAABAAEABIAAAASAAAAAAAAAABFUxhdmM2MC4zMS4xMDIgbGlieDI2NAAAAAAAAAAAAAAAGP//AAAANGF2Y0MBZAAK/+EAF2dkAAqs2V7ARAAAAwAEAAADAAg8SJZYAQAGaOvjyyLA/fj4AAAAABBwYXNwAAAAAQAAAAEAAAAUYnRydAAAAAAAAAtEAAALRAAAABhzdHRzAAAAAAAAAAEAAAACAABAAAAAABRzdHNzAAAAAAAAAAEAAAABAAAAHHN0c2MAAAAAAAAAAQAAAAEAAAACAAAAAQAAABxzdHN6AAAAAAAAAAAAAAACAAACxQAAAAwAAAAUc3RjbwAAAAAAAAABAAADYQAAAGJ1ZHRhAAAAWm1ldGEAAAAAAAAAIWhkbHIAAAAAAAAAAG1kaXJhcHBsAAAAAAAAAAAAAAAALWlsc3QAAAAlqXRvbwAAAB1kYXRhAAAAAQAAAABMYXZmNjAuMTYuMTAwAAAACGZyZWUAAALZbWRhdAAAAq0GBf//qdxF6b3m2Ui3lizYINkj7u94MjY0IC0gY29yZSAxNjQgcjMxMDggMzFlMTlmOSAtIEguMjY0L01QRUctNCBBVkMgY29kZWMgLSBDb3B5bGVmdCAyMDAzLTIwMjMgLSBodHRwOi8vd3d3LnZpZGVvbGFuLm9yZy94MjY0Lmh0bWwgLSBvcHRpb25zOiBjYWJhYz0xIHJlZj0zIGRlYmxvY2s9MTowOjAgYW5hbHlzZT0weDM6MHgxMTMgbWU9aGV4IHN1Ym1lPTcgcHN5PTEgcHN5X3JkPTEuMDA6MC4wMCBtaXhlZF9yZWY9MSBtZV9yYW5nZT0xNiBjaHJvbWFfbWU9MSB0cmVsbGlzPTEgOHg4ZGN0PTEgY3FtPTAgZGVhZHpvbmU9MjEsMTEgZmFzdF9wc2tpcD0xIGNocm9tYV9xcF9vZmZzZXQ9LTIgdGhyZWFkcz0xIGxvb2thaGVhZF90aHJlYWRzPTEgc2xpY2VkX3RocmVhZHM9MCBucj0wIGRlY2ltYXRlPTEgaW50ZXJsYWNlZD0wIGJsdXJheV9jb21wYXQ9MCBjb25zdHJhaW5lZF9pbnRyYT0wIGJmcmFtZXM9MyBiX3B5cmFtaWQ9MiBiX2FkYXB0PTEgYl9iaWFzPTAgZGlyZWN0PTEgd2VpZ2h0Yj0xIG9wZW5fZ29wPTAgd2VpZ2h0cD0yIGtleWludD0yNTAga2V5aW50X21pbj0xIHNjZW5lY3V0PTQwIGludHJhX3JlZnJlc2g9MCByY19sb29rYWhlYWQ9NDAgcmM9Y3JmIG1idHJlZT0xIGNyZj0yMy4wIHFjb21wPTAuNjAgcXBtaW49MCBxcG1heD02OSBxcHN0ZXA9NCBpcF9yYXRpbz0xLjQwIGFxPTE6MS4wMACAAAAAEGWIhAAW//730z/MsuyaJYEAAAAIQZohbEFf/vA=" type="video/mp4">
+</video>
 
 <div class="header-wrapper">
     <div class="header-bubble">
@@ -152,35 +162,125 @@
 <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhGwGPiqNXmESzkgh6oW-KDGlgMaBoIiYDd0ennIUNlOwVQH2F7DWIDyZ6Fe_3wrcY/exec';
 
+    /* ============================================================
+       Resilience layer
+       Goal: a momentary internet drop must NEVER leave the board
+       stuck on the browser's own "no internet" page, and must never
+       hand control over to the TV's system screensaver instead of
+       just quietly retrying in the background.
+       ============================================================ */
+
+    // fetch() with a hard timeout, so a stalled/half-open connection
+    // during flaky connectivity can't hang forever and pile up.
+    function fetchWithTimeout(url, options, timeoutMs) {
+        options = options || {};
+        timeoutMs = timeoutMs || 10000;
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), timeoutMs);
+        return fetch(url, { ...options, signal: controller.signal, cache: 'no-store' }).finally(() => clearTimeout(timer));
+    }
+
+    // Never let it crash out silently — log and keep going instead.
+    window.addEventListener('error', (e) => console.warn('board error (ignored):', e.message));
+    window.addEventListener('unhandledrejection', (e) => console.warn('board promise error (ignored):', e.reason));
+
+    // Screen Wake Lock: actively ask the system to keep the display on,
+    // so the TV/TVBRO is less likely to hand off to a screensaver.
+    let wakeLock = null;
+    function requestWakeLock() {
+        if (!('wakeLock' in navigator)) return;
+        navigator.wakeLock.request('screen').then((lock) => { wakeLock = lock; }).catch(() => { /* not supported/allowed here - the keep-awake video is the fallback */ });
+    }
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') requestWakeLock();
+    });
+    requestWakeLock();
+    setInterval(requestWakeLock, 60000); // some systems silently release the lock - keep reasserting it
+
+    // Full-page reload is the one thing that can trigger the browser's own
+    // offline interstitial, so only ever do it when we've actually confirmed
+    // we're online - otherwise just try again shortly instead of navigating away.
+    function safeReload() {
+        if (navigator.onLine === false) { setTimeout(safeReload, 30000); return; }
+        fetchWithTimeout(SCRIPT_URL + '?ping=' + Date.now(), {}, 6000)
+            .then(() => location.reload())
+            .catch(() => setTimeout(safeReload, 30000));
+    }
+    // Full JS/DOM/GPU-layer reset once an hour (while genuinely online). This is
+    // the main defense against slow multi-day resource leaks (memory, GPU
+    // compositing layers, decoders) that otherwise build up over a week of
+    // continuous uptime and can end in a full device freeze needing a physical
+    // power-cycle. A quick reload flash once an hour is a small price for that.
+    // (This file previously had NO periodic reload at all - if it was the one
+    // left running for days as the default/idle display, that alone could
+    // explain a crash that only clears with a physical unplug.)
+    const RELOAD_INTERVAL_MS = 60 * 60 * 1000;
+    setTimeout(safeReload, RELOAD_INTERVAL_MS);
+
+    // Extra insurance: on Chromium-based WebViews, performance.memory exposes
+    // JS heap stats. If usage climbs unusually high between scheduled reloads,
+    // reload proactively rather than waiting for an actual out-of-memory freeze.
+    function checkMemoryWatchdog() {
+        if (!(window.performance && performance.memory)) return;
+        const used = performance.memory.usedJSHeapSize;
+        const limit = performance.memory.jsHeapSizeLimit;
+        if (limit && used / limit > 0.85) {
+            console.warn('memory watchdog: heap usage high (' + Math.round(used / 1048576) + 'MB) - reloading proactively');
+            safeReload();
+        }
+    }
+    setInterval(checkMemoryWatchdog, 5 * 60 * 1000);
+
+    // The moment connectivity returns, refresh content immediately instead of
+    // waiting for the next interval.
+    window.addEventListener('online', () => { updateData(); fetchExternal(); fetchNews(); });
+
+    // Register a tiny service worker (see sw.js) so that if a reload is ever
+    // attempted at the exact moment the connection is down, the last good
+    // copy of this page is served instead of a browser "no internet" page.
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').catch(() => { /* not fatal - board still works without it */ });
+    }
+
+    /* ============================================================
+       Clock
+       ============================================================ */
     function updateDateTime() {
         const now = new Date();
         document.getElementById('live-clock').innerText = now.toLocaleTimeString('he-IL', {hour:'2-digit', minute:'2-digit'});
         document.getElementById('live-date').innerText = now.toLocaleDateString('he-IL', {day:'2-digit', month:'2-digit', year:'2-digit'});
     }
 
+    /* ============================================================
+       Data (all fetches defensive: timeout + try/catch, and never
+       touch the DOM unless the fetch actually succeeded — so a
+       failed refresh just leaves the last good content on screen
+       and quietly retries on the next interval)
+       ============================================================ */
     async function updateData() {
         try {
-            const res = await fetch(SCRIPT_URL + '?t=' + Date.now());
+            const res = await fetchWithTimeout(SCRIPT_URL + '?t=' + Date.now(), {}, 10000);
             const data = await res.json();
             if (data.messages && data.messages.length > 1) {
-                document.getElementById('message-box').innerHTML = data.messages.slice(1).reverse().map(m => 
+                document.getElementById('message-box').innerHTML = data.messages.slice(1).reverse().map(m =>
                     `<div class="msg-bubble">${m.toString().replace(/#/g,'<br>')}</div>`
                 ).join('');
             }
             if (data.events) {
                 document.getElementById('events-list').innerHTML = data.events.map(e => {
                     const p = e.split('|');
+                    if (p.length < 2) return '';
                     let nameClean = p[1].replace(/00:00/g, '').replace(/^[\s:]+/, '').replace('כל היום:', '').trim();
                     let dateClean = p[0].trim().split(' ')[0];
                     return `<div class="event-item"><span class="event-date-pill">${dateClean}</span><span class="event-text">${nameClean}</span></div>`;
                 }).join('');
             }
-        } catch(e) {}
+        } catch(e) { console.warn('updateData failed, will retry automatically:', e); }
     }
 
     async function fetchExternal() {
         try {
-            const w = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.3215&longitude=34.8532&daily=temperature_2m_max,weathercode,sunrise,sunset&timezone=auto').then(r=>r.json());
+            const w = await fetchWithTimeout('https://api.open-meteo.com/v1/forecast?latitude=32.3215&longitude=34.8532&daily=temperature_2m_max,weathercode,sunrise,sunset&timezone=auto', {}, 10000).then(r=>r.json());
             let wHtml = '';
             const daysHeb = ['א\'', 'ב\'', 'ג\'', 'ד\'', 'ה\'', 'ו\'', 'ש\''];
             const todayNum = new Date().getDay();
@@ -189,26 +289,32 @@
                 wHtml += `<div class="w-item"><span class="w-day">יום ${daysHeb[(todayNum + i) % 7]}</span><div class="w-icon">${icon}</div><div class="w-temp">${Math.round(w.daily.temperature_2m_max[i])}°</div></div>`;
             }
             document.getElementById('weather-4days').innerHTML = wHtml;
-            document.getElementById('sun-box').innerHTML = `<div class="shabbat-row"><span>🌅 זריחה</span><span>${w.daily.sunrise[0].split('T')[1]}</span></div><div class="shabbat-row"><span>🌇 שקיעה</span><span>${w.daily.sunset[0].split('T')[1]}</span></div>`;
-            const shabbat = await fetch('https://www.hebcal.com/shabbat?cfg=json&geonameid=293397&m=50').then(r=>r.json());
-            document.getElementById('parasha-display').innerText = shabbat.items.find(i=>i.category==="parashat")?.hebrew || "שבת";
-            document.getElementById('shabbat-box').innerHTML = `<div class="shabbat-row"><span>🕯️ כניסת שבת</span><span>${shabbat.items.find(i=>i.category==="candles").title.split(': ')[1]}</span></div><div class="shabbat-row"><span>✨ צאת שבת</span><span>${shabbat.items.find(i=>i.category==="havdalah").title.split(': ')[1]}</span></div>`;
-        } catch(e) {}
+            document.getElementById('sun-box').innerHTML = `<div class="shabbat-row"><span>🌅 זריחה</span><span>${w.daily.sunrise?.[0]?.split('T')[1] ?? '--:--'}</span></div><div class="shabbat-row"><span>🌇 שקיעה</span><span>${w.daily.sunset?.[0]?.split('T')[1] ?? '--:--'}</span></div>`;
+        } catch(e) { console.warn('weather/sun fetch failed, will retry automatically:', e); }
+
+        try {
+            const shabbat = await fetchWithTimeout('https://www.hebcal.com/shabbat?cfg=json&geonameid=293397&m=50', {}, 10000).then(r=>r.json());
+            const items = shabbat.items || [];
+            document.getElementById('parasha-display').innerText = items.find(i=>i.category==="parashat")?.hebrew || "שבת";
+            const candles = items.find(i=>i.category==="candles")?.title?.split(': ')[1] ?? '--:--';
+            const havdalah = items.find(i=>i.category==="havdalah")?.title?.split(': ')[1] ?? '--:--';
+            document.getElementById('shabbat-box').innerHTML = `<div class="shabbat-row"><span>🕯️ כניסת שבת</span><span>${candles}</span></div><div class="shabbat-row"><span>✨ צאת שבת</span><span>${havdalah}</span></div>`;
+        } catch(e) { console.warn('shabbat fetch failed, will retry automatically:', e); }
     }
 
     async function fetchNews() {
         try {
-            const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.ynet.co.il%2FIntegration%2FStoryRss2.xml&t=${Date.now()}`);
+            const res = await fetchWithTimeout(`https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.ynet.co.il%2FIntegration%2FStoryRss2.xml&t=${Date.now()}`, {}, 10000);
             const data = await res.json();
             if(data.status === 'ok') {
                 const newsItems = data.items.map(i => i.title).join("  •  ");
                 document.getElementById('news-ticker').innerText = "  •  " + newsItems + "  •  " + newsItems;
             }
-        } catch(e) {}
+        } catch(e) { console.warn('news fetch failed, will retry automatically:', e); }
     }
 
-    setInterval(updateDateTime, 1000); 
-    setInterval(updateData, 30000); 
+    setInterval(updateDateTime, 1000);
+    setInterval(updateData, 30000);
     setInterval(fetchExternal, 600000);
     setInterval(fetchNews, 60000);
     updateDateTime(); updateData(); fetchExternal(); fetchNews();
