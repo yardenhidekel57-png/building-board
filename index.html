@@ -293,7 +293,7 @@
         } catch(e) { console.warn('weather/sun fetch failed, will retry automatically:', e); }
 
         try {
-            const shabbat = await fetchWithTimeout('https://www.hebcal.com/shabbat?cfg=json&geonameid=293397&m=50', {}, 10000).then(r=>r.json());
+        const shabbat = await fetchWithTimeout('https://www.hebcal.com/shabbat?cfg=json&geonameid=293397&m=50&b=1', {}, 10000).then(r=>r.json());
             const items = shabbat.items || [];
             const item = items.find(i => i.category === "parashat" || i.category === "holiday");
 document.getElementById('parasha-display').innerText = item ? item.hebrew : "שבת";
