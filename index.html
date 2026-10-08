@@ -295,7 +295,8 @@
         try {
             const shabbat = await fetchWithTimeout('https://www.hebcal.com/shabbat?cfg=json&geonameid=293397&m=50', {}, 10000).then(r=>r.json());
             const items = shabbat.items || [];
-            document.getElementById('parasha-display').innerText = items.find(i=>i.category==="parashat")?.hebrew || "שבת";
+            const item = items.find(i => i.category === "parashat" || i.category === "holiday");
+document.getElementById('parasha-display').innerText = item ? item.hebrew : "שבת";
             const candles = items.find(i=>i.category==="candles")?.title?.split(': ')[1] ?? '--:--';
             const havdalah = items.find(i=>i.category==="havdalah")?.title?.split(': ')[1] ?? '--:--';
             document.getElementById('shabbat-box').innerHTML = `<div class="shabbat-row"><span>🕯️ כניסת שבת</span><span>${candles}</span></div><div class="shabbat-row"><span>✨ צאת שבת</span><span>${havdalah}</span></div>`;
