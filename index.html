@@ -250,11 +250,11 @@
         try {
             const shabbat = await fetchWithTimeout('https://www.hebcal.com/shabbat?cfg=json&geonameid=293397&b=18&m=40&M=on', {}, 10000).then(r=>r.json());
             const items = shabbat.items || [];
-            
+
             // חיפוש מדויק של פרשת השבוע בלבד (מונע הצגת ימי זיכרון או חגים במקום הפרשה)
             const parashatItem = items.find(i => i.category === "parashat");
             document.getElementById('parasha-display').innerText = parashatItem ? parashatItem.hebrew : "פרשת השבוע";
-            
+
             const candles = items.find(i=>i.category==="candles")?.title?.split(': ')[1] ?? '--:--';
             const havdalah = items.find(i=>i.category==="havdalah")?.title?.split(': ')[1] ?? '--:--';
             document.getElementById('shabbat-box').innerHTML = `<div class="shabbat-row"><span>🕯️ כניסת שבת</span><span>${candles}</span></div><div class="shabbat-row"><span>✨ צאת שבת</span><span>${havdalah}</span></div>`;
@@ -262,44 +262,73 @@
     }
 
     // מנגנון מבזקים דינמי (JSONP עוקף חסימות דפדפן / טלוויזיות)
-    window.processYnetNews = function(data) {
-        if (data && data.items && data.items.length > 0) {
+    //
+    // תוקן: הגרסה הקודמת לא בדקה את data.status בתגובה מ-rss2json, ו-
+    // script.onerror מופעל רק על כשל ברמת הרשת (למשל DNS/חיבור) - לא כשה-
+    // בקשה עצמה מצליחה (200) אבל rss2json מחזיר שגיאה בתוך ה-JSON (לדוגמה
+    // הגבלת קצב / דרישת api_key לבקשות תכופות - והלוח קורא כל 5 דקות, 24/7).
+    // במקרה כזה processYnetNews נקרא עם תוכן ללא items, האיפ"ם המקורי לא
+    // עשה כלום בלי להתריע, וה-fallback אף פעם לא הופעל - כך שהטיקר נשאר
+    // תקוע לנצח בלי שום סימן לבעיה. עכשיו יש גם בדיקת status וגם timeout
+    // בטיחות שמפעיל את ה-fallback גם אם processYnetNews בכלל לא נקרא.
+    let newsTimeoutHandle = null;
+
+    window.processYnetNews = function (data) {
+        clearTimeout(newsTimeoutHandle);
+        if (data && data.status === 'ok' && data.items && data.items.length > 0) {
             const titles = data.items.map(i => i.title).filter(Boolean);
             if (titles.length > 0) {
                 const newsString = "  •  " + titles.join("  •  ");
                 document.getElementById('news-ticker').innerText = newsString + newsString;
+                return;
             }
         }
+        console.warn('rss2json returned no usable items (rate limit / needs api_key?):', data && data.message);
+        fetchNewsFallback();
     };
+
+    function fetchNewsFallback() {
+        fetchWithTimeout('https://api.allorigins.win/get?url=' + encodeURIComponent('https://www.ynet.co.il/Integration/StoryRss2.xml'), {}, 8000)
+            .then(r => r.json())
+            .then(d => {
+                if (d && d.contents) {
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(d.contents, "text/xml");
+                    const items = xmlDoc.getElementsByTagName("title");
+                    let titles = [];
+                    for (let i = 1; i < items.length && i < 15; i++) {
+                        if (items[i].textContent) titles.push(items[i].textContent.trim());
+                    }
+                    if (titles.length > 0) {
+                        const newsString = "  •  " + titles.join("  •  ");
+                        document.getElementById('news-ticker').innerText = newsString + newsString;
+                    }
+                }
+            }).catch(err => console.warn('News fallback failed too - ticker keeps last known headlines:', err));
+    }
 
     function fetchNews() {
         const existingScript = document.getElementById('ynet-jsonp');
         if (existingScript) existingScript.remove();
+        clearTimeout(newsTimeoutHandle);
 
         const script = document.createElement('script');
         script.id = 'ynet-jsonp';
         script.src = 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.ynet.co.il%2FIntegration%2FStoryRss2.xml&callback=processYnetNews&_=' + Date.now();
-        
-        script.onerror = function() {
-            console.warn('JSONP news fetch failed, trying proxy fallback');
-            fetchWithTimeout('https://api.allorigins.win/get?url=' + encodeURIComponent('https://www.ynet.co.il/Integration/StoryRss2.xml'), {}, 8000)
-                .then(r => r.json())
-                .then(d => {
-                    if (d && d.contents) {
-                        const parser = new DOMParser();
-                        const xmlDoc = parser.parseFromString(d.contents, "text/xml");
-                        const items = xmlDoc.getElementsByTagName("title");
-                        let titles = [];
-                        for(let i=1; i<items.length && i<15; i++) {
-                            if(items[i].textContent) titles.push(items[i].textContent.trim());
-                        }
-                        if(titles.length > 0) {
-                            const newsString = "  •  " + titles.join("  •  ");
-                            document.getElementById('news-ticker').innerText = newsString + newsString;
-                        }
-                    }
-                }).catch(err => console.warn('News fallback failed:', err));
+
+        script.onerror = function () {
+            console.warn('JSONP script failed at the network level, trying proxy fallback');
+            clearTimeout(newsTimeoutHandle);
+            fetchNewsFallback();
         };
+
+        // רשת ביטחון: אם processYnetNews בכלל לא נקרא תוך 8 שניות (כולל מקרה
+        // שבו הבקשה "הצליחה" אבל לא החזירה קריאה תקפה ל-callback) - לא
+        // נשארים תקועים, מפעילים את ה-fallback ביזמה.
+        newsTimeoutHandle = setTimeout(function () {
+            console.warn('rss2json JSONP timed out with no callback - falling back');
+            fetchNewsFallback();
+        }, 8000);
 
         document.body.appendChild(script);
     }
