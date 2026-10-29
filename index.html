@@ -156,7 +156,7 @@
 </div>
 
 <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhGwGPiqNXmESzkgh6oW-KDGlgMaBoIiYDd0ennIUNlOwVQH2F7DWIDyZ6Fe_3wrcY/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzFfBM7e65MOWDe8jYYn4O1q0UViLYzhKlhEWe5IFOYn-QOVO30R60H7rZy83RTrZZf/exec';
 
     function fetchWithTimeout(url, options, timeoutMs) {
         options = options || {};
@@ -230,6 +230,17 @@
                     return `<div class="event-item"><span class="event-date-pill">${dateClean}</span><span class="event-text">${nameClean}</span></div>`;
                 }).join('');
             }
+            // אם ה-Apps Script שלכם כבר מחזיר שדה news (מערך כותרות) - זה המקור
+            // האמין ביותר (שרת שלכם, בלי תלות בפרוקסי CORS חיצוני וחינמי) ומקבל
+            // עדיפות מוחלטת; מדלגים על כל מנגנון ה-rss2json/proxy-chain לגמרי
+            // באותו סבב. אם השדה לא קיים (עדיין לא הוספתם אותו) - ממשיכים כרגיל.
+            if (Array.isArray(data.news)) {
+                gotNewsFromAppsScript = true;
+                if (data.news.length > 0) applyNewsTitles(data.news);
+                // מערך ריק = לסקריפט לא היו החדשות הפעם - משאירים את הטיקר כמו שהוא
+            } else {
+                gotNewsFromAppsScript = false;
+            }
         } catch(e) { console.warn('updateData failed:', e); }
     }
 
@@ -261,53 +272,77 @@
         } catch(e) { console.warn('shabbat fetch failed:', e); }
     }
 
-    // מנגנון מבזקים דינמי (JSONP עוקף חסימות דפדפן / טלוויזיות)
+    // מנגנון מבזקים.
     //
-    // תוקן: הגרסה הקודמת לא בדקה את data.status בתגובה מ-rss2json, ו-
-    // script.onerror מופעל רק על כשל ברמת הרשת (למשל DNS/חיבור) - לא כשה-
-    // בקשה עצמה מצליחה (200) אבל rss2json מחזיר שגיאה בתוך ה-JSON (לדוגמה
-    // הגבלת קצב / דרישת api_key לבקשות תכופות - והלוח קורא כל 5 דקות, 24/7).
-    // במקרה כזה processYnetNews נקרא עם תוכן ללא items, האיפ"ם המקורי לא
-    // עשה כלום בלי להתריע, וה-fallback אף פעם לא הופעל - כך שהטיקר נשאר
-    // תקוע לנצח בלי שום סימן לבעיה. עכשיו יש גם בדיקת status וגם timeout
-    // בטיחות שמפעיל את ה-fallback גם אם processYnetNews בכלל לא נקרא.
+    // רקע: בדיקה חיצונית הראתה ש-rss2json עצמו מחזיר לאחרונה שגיאות 500
+    // (לא רק הגבלת קצב), ו-allorigins.win (ה-fallback שהיה כאן) הוא באותה
+    // קטגוריה של שירותי "CORS proxy" חינמיים שנופלים/מוגבלים בלי התרעה -
+    // זו תופעה ידועה ומתועדת בכל השירותים החינמיים האלה (rss2json, cors.lol,
+    // corsproxy.io שעבר לדרוש מפתח API, codetabs שנסגר לגמרי). אין "עוד
+    // פרוקסי חינמי" שפותר את זה לצמיתות - רק מקטין סיכוי לכישלון בו-זמני.
+    // הפתרון האמין האמיתי הוא data.news מה-Apps Script שלכם (ראו updateData
+    // למעלה) - אם הוא קיים בתשובה, המנגנון הזה כולו לא פועל בכלל.
+    let gotNewsFromAppsScript = false;
     let newsTimeoutHandle = null;
+
+    function applyNewsTitles(titles) {
+        const newsString = "  •  " + titles.join("  •  ");
+        document.getElementById('news-ticker').innerText = newsString + newsString;
+    }
 
     window.processYnetNews = function (data) {
         clearTimeout(newsTimeoutHandle);
         if (data && data.status === 'ok' && data.items && data.items.length > 0) {
             const titles = data.items.map(i => i.title).filter(Boolean);
-            if (titles.length > 0) {
-                const newsString = "  •  " + titles.join("  •  ");
-                document.getElementById('news-ticker').innerText = newsString + newsString;
-                return;
-            }
+            if (titles.length > 0) { applyNewsTitles(titles); return; }
         }
-        console.warn('rss2json returned no usable items (rate limit / needs api_key?):', data && data.message);
+        console.warn('rss2json returned no usable items (rate limit / outage / needs api_key?):', data && data.message);
         fetchNewsFallback();
     };
 
-    function fetchNewsFallback() {
-        fetchWithTimeout('https://api.allorigins.win/get?url=' + encodeURIComponent('https://www.ynet.co.il/Integration/StoryRss2.xml'), {}, 8000)
-            .then(r => r.json())
-            .then(d => {
-                if (d && d.contents) {
-                    const parser = new DOMParser();
-                    const xmlDoc = parser.parseFromString(d.contents, "text/xml");
-                    const items = xmlDoc.getElementsByTagName("title");
-                    let titles = [];
-                    for (let i = 1; i < items.length && i < 15; i++) {
-                        if (items[i].textContent) titles.push(items[i].textContent.trim());
-                    }
-                    if (titles.length > 0) {
-                        const newsString = "  •  " + titles.join("  •  ");
-                        document.getElementById('news-ticker').innerText = newsString + newsString;
-                    }
-                }
-            }).catch(err => console.warn('News fallback failed too - ticker keeps last known headlines:', err));
+    function parseTitlesFromRssXml(xmlText) {
+        const xmlDoc = new DOMParser().parseFromString(xmlText, "text/xml");
+        const items = xmlDoc.getElementsByTagName("title");
+        let titles = [];
+        for (let i = 1; i < items.length && i < 15; i++) {
+            if (items[i].textContent) titles.push(items[i].textContent.trim());
+        }
+        return titles;
+    }
+
+    // כמה פרוקסי CORS חינמיים חלופיים, מנוסים אחד אחרי השני. כל אחד מהם
+    // יכול ליפול בכל רגע בלי התרעה (זה טבעם) - יותר ניסיונות = סיכוי טוב
+    // יותר שאחד מהם זמין כרגע, אבל זו עדיין רשת ביטחון זמנית, לא פתרון קבוע.
+    const NEWS_PROXIES = [
+        (url) => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
+        (url) => 'https://thingproxy.freeboard.io/fetch/' + url
+    ];
+
+    function fetchNewsFallback(proxyIndex) {
+        proxyIndex = proxyIndex || 0;
+        if (proxyIndex >= NEWS_PROXIES.length) {
+            console.warn('all news proxies failed this cycle - ticker keeps its last known headlines');
+            return;
+        }
+        const proxyUrl = NEWS_PROXIES[proxyIndex]('https://www.ynet.co.il/Integration/StoryRss2.xml');
+        fetchWithTimeout(proxyUrl, {}, 8000)
+            .then((r) => r.text())
+            .then((text) => {
+                const titles = parseTitlesFromRssXml(text);
+                if (titles.length > 0) applyNewsTitles(titles);
+                else fetchNewsFallback(proxyIndex + 1);
+            })
+            .catch((err) => {
+                console.warn('news proxy #' + proxyIndex + ' failed:', err);
+                fetchNewsFallback(proxyIndex + 1);
+            });
     }
 
     function fetchNews() {
+        // ה-Apps Script כבר נותן חדשות בעצמו (ראו updateData) - אין סיבה
+        // להטריד שירותי צד-שלישי חינמיים בכלל.
+        if (gotNewsFromAppsScript) return;
+
         const existingScript = document.getElementById('ynet-jsonp');
         if (existingScript) existingScript.remove();
         clearTimeout(newsTimeoutHandle);
@@ -317,16 +352,16 @@
         script.src = 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.ynet.co.il%2FIntegration%2FStoryRss2.xml&callback=processYnetNews&_=' + Date.now();
 
         script.onerror = function () {
-            console.warn('JSONP script failed at the network level, trying proxy fallback');
+            console.warn('JSONP script failed at the network level, trying proxy chain');
             clearTimeout(newsTimeoutHandle);
             fetchNewsFallback();
         };
 
         // רשת ביטחון: אם processYnetNews בכלל לא נקרא תוך 8 שניות (כולל מקרה
         // שבו הבקשה "הצליחה" אבל לא החזירה קריאה תקפה ל-callback) - לא
-        // נשארים תקועים, מפעילים את ה-fallback ביזמה.
+        // נשארים תקועים, מפעילים את שרשרת ה-fallback ביזמה.
         newsTimeoutHandle = setTimeout(function () {
-            console.warn('rss2json JSONP timed out with no callback - falling back');
+            console.warn('rss2json JSONP timed out with no callback - falling back to proxy chain');
             fetchNewsFallback();
         }, 8000);
 
